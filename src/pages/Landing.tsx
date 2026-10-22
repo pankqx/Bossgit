@@ -8,6 +8,11 @@ import GitGraph from '../components/GitGraph'
 import CourseMap from '../components/CourseMap'
 import { Mark } from '../components/Logo'
 import { modules, allLessons, missionCount, plannedCount } from '../content'
+import { problems } from '../content/problems'
+import { DIFF_TONE } from './Problems'
+
+// a few problems to show off on the landing page, from easy to hard
+const SHOWCASE = ['wrong-branch', 'recover-deleted-branch', 'purge-password', 'rebase-onto', 'sync-fork']
 
 const DEMO = [
   'git init',
@@ -133,7 +138,7 @@ export default function Landing() {
           {[
             [String(modules.length), 'modules, from mkdir to internals'],
             [String(written), `lessons written, ${plannedCount} more on the way`],
-            [String(missionCount), 'missions checked against real Git'],
+            [String(problems.length), `practice problems, plus ${missionCount} lesson missions`],
             ['0', 'accounts, installs or fees'],
           ].map(([n, l], i) => (
             <div key={l} className={`py-8 md:py-10 pr-6 ${i % 2 ? 'pl-6 border-l border-line' : ''} ${i >= 2 ? 'border-t md:border-t-0 border-line' : ''} ${i === 2 ? 'md:pl-6 md:border-l' : ''}`}>
@@ -177,6 +182,29 @@ export default function Landing() {
             <Link to="/learn" className="inline-flex px-5 py-3 rounded-full bg-[#efe8de] text-[#1c1916] font-semibold hover:bg-white transition w-fit">Open the course</Link>
           </div>
           <CourseMap inverted />
+        </div>
+      </section>
+
+      {/* practice problems */}
+      <section className="gutter max-w-[1400px] mx-auto pt-24">
+        <div className="grid lg:grid-cols-[minmax(0,0.8fr)_minmax(0,2fr)] gap-12">
+          <div>
+            <div className="eyebrow mb-4">Practice</div>
+            <h2 className="font-display font-bold text-[clamp(2rem,3.6vw,3.2rem)] leading-[1.02] tracking-[-0.03em]">Then you train like it is <span className="font-serif italic font-normal">LeetCode</span>.</h2>
+            <p className="mt-5 font-serif text-[1.15rem] leading-relaxed text-ink-2 max-w-[34ch]">{problems.length} real disasters, from a typo in a commit message to a password stuck in history. You fix them in a real repository and press Submit.</p>
+            <Link to="/problems" className="mt-8 inline-flex px-5 py-3 rounded-full bg-ink text-paper font-semibold hover:bg-signal transition-colors">See all problems</Link>
+          </div>
+          <ul className="border-t border-line">
+            {SHOWCASE.map(slug => problems.find(p => p.slug.endsWith(slug))).filter(p => !!p).map(p => (
+              <li key={p!.slug}>
+                <Link to={`/problems/${p!.slug}`} className="group grid grid-cols-[3.2rem_1fr_auto] items-baseline gap-4 py-5 border-b border-line">
+                  <span className="font-mono text-sm text-mute tabular-nums">{String(p!.number).padStart(3, '0')}</span>
+                  <span className="text-[1.25rem] sm:text-[1.45rem] font-bold tracking-tight leading-tight group-hover:text-signal transition-colors">{p!.title}</span>
+                  <span className="font-mono text-xs uppercase tracking-[0.1em]" style={{ color: DIFF_TONE[p!.difficulty] }}>{p!.difficulty}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 

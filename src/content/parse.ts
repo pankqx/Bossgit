@@ -13,6 +13,7 @@ export type Block =
   | { type: 'mission'; mission: Mission }
   | { type: 'box'; kind: 'fact' | 'tip' | 'warn' | 'story'; text: string }
   | { type: 'flow'; code: string }
+  | { type: 'solution'; text: string }
 
 export type Question = { id: string; q: string; options: string[]; answer: number; why: string }
 export type Mission = { id: string; title: string; goal: string; setup: string[]; checks: string[]; hints: string[]; boss: boolean }
@@ -40,12 +41,13 @@ export function parseBlocks(body: string, lessonId: string): Block[] {
   const pushMd = (text: string) => { if (text.trim()) blocks.push({ type: 'md', text }) }
   while ((m = re.exec(body))) {
     const [whole, kind, inner] = m
-    const known = ['try', 'quiz', 'mission', 'flow', ...BOXES].includes(kind)
+    const known = ['try', 'quiz', 'mission', 'flow', 'solution', ...BOXES].includes(kind)
     if (!known) continue
     pushMd(body.slice(last, m.index))
     last = m.index + whole.length
     if (kind === 'try') blocks.push({ type: 'try', commands: inner.split('\n').map(s => s.trim()).filter(Boolean) })
     else if (kind === 'flow') blocks.push({ type: 'flow', code: inner })
+    else if (kind === 'solution') blocks.push({ type: 'solution', text: inner })
     else if (kind === 'quiz') blocks.push({ type: 'quiz', questions: parseQuiz(inner, `${lessonId}/q${++quizCount}`) })
     else if (kind === 'mission') blocks.push({ type: 'mission', mission: parseMission(inner, `${lessonId}/m${++missionCount}`) })
     else blocks.push({ type: 'box', kind: kind as 'fact', text: inner })

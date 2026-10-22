@@ -7,13 +7,14 @@ export type Progress = {
   lessons: Record<string, string> // lesson id -> date finished
   missions: Record<string, string>
   quizzes: Record<string, boolean> // question id -> answered right
+  problems: Record<string, string> // problem slug -> date solved
   xp: number
   days: Record<string, number> // YYYY-MM-DD -> things done that day
   name?: string
 }
 
 const KEY = 'bossgit-progress-v1'
-const empty = (): Progress => ({ version: 1, lessons: {}, missions: {}, quizzes: {}, xp: 0, days: {} })
+const empty = (): Progress => ({ version: 1, lessons: {}, missions: {}, quizzes: {}, problems: {}, xp: 0, days: {} })
 
 function load(): Progress {
   try {
@@ -55,6 +56,12 @@ export function answerQuiz(id: string, right: boolean) {
   const next = { ...state, quizzes: { ...state.quizzes, [id]: right } }
   save(right ? award(next, XP.quiz) : next)
 }
+export const PROBLEM_XP: Record<string, number> = { Easy: 15, Medium: 35, Hard: 70 }
+export function solveProblem(slug: string, difficulty: string) {
+  if (state.problems[slug]) return
+  save(award({ ...state, problems: { ...state.problems, [slug]: today() } }, PROBLEM_XP[difficulty] ?? 15))
+}
+
 export function setName(name: string) { save({ ...state, name }) }
 
 export function exportProgress(): string {

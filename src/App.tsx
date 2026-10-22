@@ -8,6 +8,8 @@ import Playground from './pages/Playground'
 import Cheatsheet from './pages/Cheatsheet'
 import Rescue from './pages/Rescue'
 import Me from './pages/Me'
+import Problems from './pages/Problems'
+import ProblemPage from './pages/ProblemPage'
 import NotFound from './pages/NotFound'
 
 // Hash routing (#/learn) works on GitHub Pages with no server setup.
@@ -20,6 +22,8 @@ export default function App() {
           <Route path="learn" element={<Learn />} />
           <Route path="learn/:moduleId" element={<ModulePage />} />
           <Route path="learn/:moduleId/:slug" element={<LessonPage />} />
+          <Route path="problems" element={<Problems />} />
+          <Route path="problems/:slug" element={<ProblemPage />} />
           <Route path="playground" element={<Playground />} />
           <Route path="cheatsheet" element={<Cheatsheet />} />
           <Route path="rescue" element={<Rescue />} />

@@ -5,6 +5,7 @@ import { useProgress, streak, level } from '../store/progress'
 
 const NAV = [
   { to: '/learn', label: 'Course' },
+  { to: '/problems', label: 'Problems' },
   { to: '/playground', label: 'Playground' },
   { to: '/cheatsheet', label: 'Cheat sheet' },
   { to: '/rescue', label: 'Rescue' },
@@ -76,7 +77,7 @@ function Footer() {
           <Wordmark size={26} />
           <p className="font-serif text-ink-2 max-w-sm">A free course for anyone who wants to stop being scared of Git. Made in the open, one commit a day.</p>
         </div>
-        <FooterCol title="Learn" links={[['/learn', 'The course'], ['/playground', 'Playground'], ['/cheatsheet', 'Cheat sheet'], ['/rescue', 'I broke something']]} />
+        <FooterCol title="Learn" links={[['/learn', 'The course'], ['/problems', 'Practice problems'], ['/playground', 'Playground'], ['/cheatsheet', 'Cheat sheet'], ['/rescue', 'I broke something']]} />
         <FooterCol title="You" links={[['/me', 'Progress and backup'], ['/learn', 'Continue']]} />
         <div className="space-y-2 text-sm">
           <div className="eyebrow">Source</div>
