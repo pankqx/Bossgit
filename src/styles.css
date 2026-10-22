@@ -1,0 +1,152 @@
+@import "tailwindcss";
+
+/*
+  BossGit design tokens.
+  Warm paper and dark ink, like a printed manual. One signal red for HEAD
+  and calls to action. Three graph colours: moss for commits, ochre for
+  branches, slate for remotes. Change a colour here and the whole site follows.
+*/
+:root {
+  --paper: #f3efe8;
+  --paper-2: #ebe5dc;
+  --card: #faf8f4;
+  --ink: #1f1b18;
+  --ink-2: #4a433d;
+  --mute: #7a7068;
+  --line: #d9d1c6;
+  --signal: #c2462e;
+  --moss: #3f6b4e;
+  --ochre: #b07a1f;
+  --slate: #3c5a78;
+  --term-bg: #1c1916;
+  --term-fg: #e8e1d7;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #151311;
+    --paper-2: #1c1a17;
+    --card: #1f1c19;
+    --ink: #efe8de;
+    --ink-2: #c9bfb2;
+    --mute: #988d81;
+    --line: #34302b;
+    --signal: #e8664a;
+    --moss: #7fb08d;
+    --ochre: #d9a648;
+    --slate: #86a7c9;
+    --term-bg: #0f0d0c;
+    --term-fg: #e8e1d7;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #151311;
+  --paper-2: #1c1a17;
+  --card: #1f1c19;
+  --ink: #efe8de;
+  --ink-2: #c9bfb2;
+  --mute: #988d81;
+  --line: #34302b;
+  --signal: #e8664a;
+  --moss: #7fb08d;
+  --ochre: #d9a648;
+  --slate: #86a7c9;
+  --term-bg: #0f0d0c;
+  --term-fg: #e8e1d7;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-mute: var(--mute);
+  --color-line: var(--line);
+  --color-signal: var(--signal);
+  --color-moss: var(--moss);
+  --color-ochre: var(--ochre);
+  --color-slate: var(--slate);
+  --font-display: "Schibsted Grotesk Variable", "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+
+html { background: var(--paper); }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+::selection { background: var(--signal); color: var(--paper); }
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 4px; }
+h1, h2, h3 { text-wrap: balance; }
+
+.gutter {
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+.rule { border-top: 1px solid var(--line); }
+
+/* lesson typography */
+.prose-bg { font-family: var(--font-serif); font-size: 1.16rem; line-height: 1.7; color: var(--ink); }
+.prose-bg > * + * { margin-top: 1.05em; }
+.prose-bg h2 { font-family: var(--font-display); font-weight: 700; font-size: 1.6rem; line-height: 1.2; letter-spacing: -0.015em; margin-top: 2em; }
+.prose-bg h3 { font-family: var(--font-display); font-weight: 650; font-size: 1.2rem; margin-top: 1.6em; }
+.prose-bg strong { font-weight: 600; }
+.prose-bg em { font-style: italic; }
+.prose-bg a { color: var(--signal); text-decoration: underline; text-underline-offset: 3px; }
+.prose-bg ul, .prose-bg ol { padding-left: 1.3em; }
+.prose-bg ul { list-style: disc; }
+.prose-bg ol { list-style: decimal; }
+.prose-bg li + li { margin-top: 0.35em; }
+.prose-bg li::marker { color: var(--mute); }
+.prose-bg code { font-family: var(--font-mono); font-size: 0.82em; background: var(--paper-2); border: 1px solid var(--line); padding: 0.08em 0.38em; border-radius: 5px; }
+.prose-bg pre { font-family: var(--font-mono); font-size: 0.86rem; line-height: 1.6; background: var(--term-bg); color: var(--term-fg); padding: 1rem 1.15rem; border-radius: 10px; overflow-x: auto; }
+.prose-bg pre code { background: none; border: 0; padding: 0; font-size: inherit; color: inherit; }
+.prose-bg blockquote { border-left: 3px solid var(--signal); padding-left: 1rem; color: var(--ink-2); font-style: italic; }
+.prose-bg table { width: 100%; border-collapse: collapse; font-family: var(--font-display); font-size: 0.95rem; display: block; overflow-x: auto; }
+.prose-bg th, .prose-bg td { border-bottom: 1px solid var(--line); padding: 0.5rem 0.75rem 0.5rem 0; text-align: left; vertical-align: top; }
+.prose-bg th { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--mute); font-weight: 400; }
+.prose-bg hr { border: 0; border-top: 1px solid var(--line); margin: 2.5em 0; }
+
+/* terminal */
+.term-shell .xterm { padding: 12px 14px; }
+.term-shell .xterm-viewport { background: transparent !important; }
+.term-shell .xterm-viewport::-webkit-scrollbar { width: 8px; }
+.term-shell .xterm-viewport::-webkit-scrollbar-thumb { background: #3a342e; border-radius: 4px; }
+
+/* the pattern band: commit lanes drawn in CSS, used on the landing page */
+.lanes-bg {
+  background-image:
+    radial-gradient(circle at 12px 12px, var(--line) 2.2px, transparent 2.6px),
+    linear-gradient(90deg, transparent 11px, var(--line) 11px, var(--line) 13px, transparent 13px);
+  background-size: 48px 24px, 48px 24px;
+}
+
+.mermaid-box svg { max-width: 100%; height: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* logo draw-in on the landing page */
+.bg-mark .m-stem, .bg-mark .m-top, .bg-mark .m-bot { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 0.9s cubic-bezier(.6,.05,.3,1) forwards; }
+.bg-mark .m-top { animation-delay: 0.35s; }
+.bg-mark .m-bot { animation-delay: 0.6s; }
+.bg-mark .m-head, .bg-mark .m-dot { transform-box: fill-box; transform-origin: center; transform: scale(0); animation: pop 0.4s cubic-bezier(.3,1.6,.5,1) forwards; }
+.bg-mark .m-head { animation-delay: 1.05s; }
+.bg-mark .m-dot { animation-delay: 1.2s; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes pop { to { transform: scale(1); } }
