@@ -917,8 +917,18 @@ export class Shell {
     }
     const oid = await this.resolve(dir, rev)
     const c = await this.readCommit(dir, oid)
+    const t = (await this.annotatedTag(dir, rev))?.tag
+    const tagHead = t ? `${C.yellow('tag ' + t.tag)}\nTagger: ${t.tagger.name} <${t.tagger.email}>\n\n${t.message.trim()}\n\n` : ''
     const head = await this.formatLog(dir, [{ oid, commit: c }], parseArgs([]))
-    return head + (await this.treeDiff(dir, c.parent[0] ?? null, oid))
+    return tagHead + head + (await this.treeDiff(dir, c.parent[0] ?? null, oid))
+  }
+
+  /** the tag object behind an annotated tag name, or undefined for light tags and other revs */
+  private async annotatedTag(dir: string, name: string) {
+    const oid = await git.resolveRef({ fs: this.fs, dir, ref: `refs/tags/${name}`, depth: 2 }).catch(() => undefined)
+    if (!oid) return undefined
+    const o = await git.readObject({ fs: this.fs, dir, oid, format: 'parsed' }).catch(() => undefined)
+    return o && o.type === 'tag' ? { oid, tag: o.object as any } : undefined
   }
 
   private formatFileDiff(path: string, a: string | undefined, b: string | undefined) {
@@ -996,9 +1006,10 @@ export class Shell {
       const [name, start] = p.pos
       if (!(await this.headOid(dir)) && !start) fail(`fatal: not a valid object name: '${cur}'`)
       if (!/^[A-Za-z0-9._\/-]+$/.test(name) || name.endsWith('/') || name.includes('..')) fail(`fatal: '${name}' is not a valid branch name`)
-      if (await this.exists(`${dir}/.git/refs/heads/${name}`)) fail(`fatal: a branch named '${name}' already exists`)
+      if (name === cur && !detached && p.has('-f', '--force')) fail(`fatal: cannot force update the current branch.`)
+      if (!p.has('-f', '--force') && (await git.listBranches({ fs: this.fs, dir })).includes(name)) fail(`fatal: a branch named '${name}' already exists`)
       const oid = await this.resolve(dir, start ?? 'HEAD')
-      await git.writeRef({ fs: this.fs, dir, ref: `refs/heads/${name}`, value: oid })
+      await git.writeRef({ fs: this.fs, dir, ref: `refs/heads/${name}`, value: oid, force: true })
       return ''
     }
     const out: string[] = []
@@ -1500,6 +1511,7 @@ export class Shell {
     let oid: string
     try { oid = await this.resolve(dir, rev) } catch { oid = await git.expandOid({ fs: this.fs, dir, oid: rev }).catch(() => fail(`fatal: Not a valid object name ${rev}`)) as string }
     if (/^[0-9a-f]{4,40}$/.test(rev)) oid = await git.expandOid({ fs: this.fs, dir, oid: rev }).catch(() => oid)
+    oid = (await this.annotatedTag(dir, rev))?.oid ?? oid
     const o = await git.readObject({ fs: this.fs, dir, oid, format: 'parsed' })
     if (p.has('-t')) return o.type + '\n'
     if (p.has('-s')) return String(((await git.readObject({ fs: this.fs, dir, oid, format: 'content' })).object as Uint8Array).length) + '\n'

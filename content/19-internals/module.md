@@ -13,5 +13,5 @@ Underneath the friendly commands, Git is a small and beautiful database. Once yo
 - Blobs, trees, commits and tags
 - Hashes and why they matter
 - Plumbing commands
-- Refs, the index and packfiles
+- Refs and the index file
 - Make a commit without git commit

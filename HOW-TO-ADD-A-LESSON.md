@@ -147,6 +147,8 @@ Each `check:` line is one thing that must be true. File paths are relative to th
 | `same REV REV` | two names point at the same commit, like `same main origin/main` |
 | `cwd FOLDER` | the learner is inside FOLDER |
 | `run COMMAND => TEXT` | running COMMAND prints TEXT |
+| `branchlacks BRANCH FILE` | FILE is **not** in the newest commit of BRANCH (BRANCH can also be `HEAD~1`) |
+| `neverin FILE` | no commit in the current history contains FILE |
 
 ## Lab helpers for setup
 
@@ -158,6 +160,43 @@ Each `check:` line is one thing that must be true. File paths are relative to th
 | `bossgit teammate URL FILE TEXT` | A teammate called Sam adds TEXT to FILE and pushes it to main on URL. Good for practising pull and rejected pushes. |
 
 `git push` to a remote that does not exist yet creates a pretend GitHub repository automatically.
+
+## Add a practice problem
+
+A problem is one file in `problems/`, named with the next free number: `042-revert-a-revert.md`. It has a statement, exactly one mission, and a solution.
+
+````markdown
+---
+title: Revert a revert
+difficulty: Medium
+tags: undo, revert
+---
+
+One or two sentences of story: what went wrong and why it matters.
+
+```mission
+goal: What the learner must do, in one or two sentences.
+setup: mkdir shop && cd shop && git init -q && echo hi > a.txt && git add . && git commit -q -m "Start"
+setup: one more setup line per step, if you want
+check: clean
+check: message Revert
+hint: A small nudge.
+hint: A bigger nudge.
+hint: Almost the answer.
+```
+
+```solution
+git revert HEAD
+```
+````
+
+Rules that make a good problem:
+
+- `difficulty` is Easy, Medium or Hard. Easy is one command, Medium is two to four and one idea, Hard mixes ideas.
+- The checks must **fail** before the learner does anything, and **pass** after the solution. Try both in the playground.
+- Check the result, not the commands. There is often more than one right way.
+- Lines in the solution that start with `#` are comments.
+- Run `npm run check`, then `npm run roadmap`.
 
 ## Writing style
 

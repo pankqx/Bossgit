@@ -12,5 +12,5 @@ Most people never need these. The people who do are very glad they exist.
 - Submodules and subtrees
 - Sparse checkout and partial clone
 - Git LFS for big files
-- Hooks
+- git rerere: let Git remember conflict fixes
 - Aliases and .gitattributes

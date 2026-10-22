@@ -23,8 +23,29 @@ export default function Blocks({ blocks, lab }: { blocks: Block[]; lab: Lab }) {
           case 'mission': return <MissionCard key={i} mission={b.mission} lab={lab} />
           case 'flow': return <Flow key={i} code={b.code} />
           case 'box': return <Box key={i} kind={b.kind} text={b.text} />
+          case 'solution': return <Solution key={i} text={b.text} />
         }
       })}
+    </div>
+  )
+}
+
+export function Solution({ text }: { text: string }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className="rounded-xl border border-dashed border-line p-5">
+      {!open ? (
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <span className="text-ink-2">Stuck for more than 20 minutes? The solution is here.</span>
+          <button onClick={() => setOpen(true)} className="px-4 py-2 rounded-full border border-line hover:border-ink text-sm">Show solution</button>
+        </div>
+      ) : (
+        <div>
+          <div className="eyebrow mb-3">One solution</div>
+          <pre className="font-mono text-[14px] leading-relaxed bg-[#1c1916] text-[#e8e1d7] rounded-lg p-4 overflow-x-auto">{text.trimEnd().split('\n').map(l => (l.startsWith('#') || !l.trim() ? l : '$ ' + l)).join('\n')}</pre>
+          <p className="mt-3 text-sm text-mute">Close it, reset the lab, and solve it again from memory. That is when it sticks.</p>
+        </div>
+      )}
     </div>
   )
 }
