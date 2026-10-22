@@ -6,7 +6,7 @@ This file lists everything still to build. Pick one item, make a branch, do it, 
 
 Lessons marked ✅ are written. The rest are planned: each one is listed in its module's `module.md` under **Planned lessons**. When you write one, remove it from that list.
 
-**19 lessons written, 119 planned.**
+**19 lessons written, 168 planned.**
 
 ### M00 · Terminal basics (Before Git)
 
@@ -179,7 +179,7 @@ Lessons marked ✅ are written. The rest are planned: each one is listed in its 
 - [ ] Blobs, trees, commits and tags
 - [ ] Hashes and why they matter
 - [ ] Plumbing commands
-- [ ] Refs, the index and packfiles
+- [ ] Refs and the index file
 - [ ] Make a commit without git commit
 
 ### M20 · Power tools (Advanced)
@@ -188,7 +188,7 @@ Lessons marked ✅ are written. The rest are planned: each one is listed in its 
 - [ ] Submodules and subtrees
 - [ ] Sparse checkout and partial clone
 - [ ] Git LFS for big files
-- [ ] Hooks
+- [ ] git rerere: let Git remember conflict fixes
 - [ ] Aliases and .gitattributes
 
 ### M21 · Security (Advanced)
@@ -209,7 +209,74 @@ Lessons marked ✅ are written. The rest are planned: each one is listed in its 
 - [ ] Performance in huge repositories
 - [ ] Case studies: Linux and big tech
 
-### M23 · Boss Rush (Mastery)
+### M23 · Git configuration mastery (Advanced)
+
+- [ ] Where config lives: system, global, local and worktree
+- [ ] Conditional includes: work and personal identities
+- [ ] Aliases that save hours
+- [ ] Better diffs: diff tools, word diff and color moved
+- [ ] Merge and conflict settings: diff3, zdiff3 and mergetool
+- [ ] Line endings and .gitattributes
+- [ ] pull.rebase, push.autoSetupRemote and other modern defaults
+- [ ] Credential helpers and SSH keys
+
+### M24 · Hooks and automation (Automation)
+
+- [ ] What a hook is and where hooks live
+- [ ] pre-commit: lint and format before every commit
+- [ ] commit-msg: enforce Conventional Commits
+- [ ] pre-push: run tests before you push
+- [ ] Sharing hooks with a team: core.hooksPath, Husky and pre-commit
+- [ ] Server-side hooks and why GitHub uses rules instead
+- [ ] When hooks get in the way, and --no-verify
+
+### M25 · Git internals II (Advanced)
+
+- [ ] Loose objects vs packfiles
+- [ ] Delta compression: how Git saves space
+- [ ] git gc, prune and unreachable objects
+- [ ] How fetch and push talk to a server
+- [ ] Shallow clones and partial clones in depth
+- [ ] The commit-graph and multi-pack index
+- [ ] SHA-1, SHA-256 and the hash transition
+- [ ] Repairing a corrupted repository with fsck
+
+### M26 · GitHub for organizations (GitHub)
+
+- [ ] Organizations, teams and roles
+- [ ] Permissions: read, triage, write, maintain and admin
+- [ ] CODEOWNERS and required reviews
+- [ ] Rulesets and branch protection in depth
+- [ ] GitHub Projects for planning
+- [ ] Templates: issue forms, PR templates and repository templates
+- [ ] Inner source: open source habits inside a company
+- [ ] Audit logs and leaving a company cleanly
+
+### M27 · The GitHub platform (Automation)
+
+- [ ] The REST API with curl and gh api
+- [ ] The GraphQL API: ask for exactly what you need
+- [ ] Webhooks: let GitHub call your server
+- [ ] GitHub Apps vs OAuth Apps vs tokens
+- [ ] Reusable workflows and composite actions
+- [ ] Write your own JavaScript action
+- [ ] OIDC: deploy to the cloud with no stored secrets
+- [ ] GitHub Packages and container registry
+- [ ] Codespaces and dev containers
+- [ ] Copilot and AI in the pull request flow
+
+### M28 · Professional workflows and interviews (Mastery)
+
+- [ ] Trunk-based development vs Git Flow vs GitHub Flow
+- [ ] Atomic commits and how to tell a story with history
+- [ ] Stacked pull requests
+- [ ] Code review: giving and receiving feedback
+- [ ] Semantic versioning and release trains
+- [ ] Feature flags instead of long-lived branches
+- [ ] Twenty Git questions interviewers love
+- [ ] Explaining merge vs rebase to a junior developer
+
+### M29 · Boss Rush (Mastery)
 
 - [ ] Ten disaster scenarios, timed
 - [ ] Capstone: build a mini Git
@@ -217,6 +284,21 @@ Lessons marked ✅ are written. The rest are planned: each one is listed in its 
 - [ ] Teach it back
 - [ ] Your BossGit certificate
 - [ ] Where to go next
+
+## Practice problems
+
+**41 problems: 14 easy, 20 medium, 7 hard.** Aim for 100. Ideas still to write:
+
+- [ ] Resolve a conflict in two files at once
+- [ ] Rebase a branch that has a merge commit in it
+- [ ] Revert a revert
+- [ ] Find which commit deleted a line (log -S)
+- [ ] Recover a dropped stash
+- [ ] Fix an author name and email on the last three commits
+- [ ] Move a single file's history into a new branch
+- [ ] Undo a merge that was already pushed
+- [ ] Rebuild main after someone force pushed over it
+- [ ] Clean a repository of untracked junk safely
 
 ## Features to build
 

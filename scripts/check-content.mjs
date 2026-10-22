@@ -1,11 +1,19 @@
-// Checks every lesson file for common mistakes. Run it with: npm run check
+// Checks every lesson and practice problem for common mistakes. Run it with: npm run check
 import { readdirSync, readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 
 const root = 'content'
-const CHECKS = ['repo', 'norepo', 'cwd', 'branch', 'nobranch', 'head', 'detached', 'attached', 'commits', 'exactcommits', 'clean', 'staged', 'notstaged', 'modified', 'untracked', 'tracked', 'nottracked', 'branchhas', 'file', 'nofile', 'dir', 'contains', 'lacks', 'message', 'tag', 'merged', 'parents', 'linear', 'nooperation', 'stash', 'remote', 'pushed', 'config', 'same', 'run']
+const CHECKS = ['repo', 'norepo', 'cwd', 'branch', 'nobranch', 'head', 'detached', 'attached', 'commits', 'exactcommits', 'clean', 'staged', 'notstaged', 'modified', 'untracked', 'tracked', 'nottracked', 'branchhas', 'file', 'nofile', 'dir', 'contains', 'lacks', 'message', 'tag', 'merged', 'parents', 'linear', 'nooperation', 'stash', 'remote', 'pushed', 'config', 'same', 'run', 'branchlacks', 'neverin']
 const problems = []
 let lessons = 0
+
+function checkMissions(path, src) {
+  for (const [, body] of src.matchAll(/^```mission\n([\s\S]*?)^```/gm)) {
+    if (!/^goal:/m.test(body)) problems.push(`${path}: a mission needs a goal: line`)
+    if (!/^check:/m.test(body)) problems.push(`${path}: a mission needs at least one check: line`)
+    for (const [, c] of body.matchAll(/^check:\s*(\S+)/gm)) if (!CHECKS.includes(c)) problems.push(`${path}: unknown check "${c}"`)
+  }
+}
 
 for (const mod of readdirSync(root).sort()) {
   const dir = join(root, mod)
@@ -27,16 +35,33 @@ for (const mod of readdirSync(root).sort()) {
         if (right !== 1) problems.push(`${path}: each quiz question needs exactly one answer marked - [x] ("${q.split('\n')[0].trim().slice(0, 40)}…")`)
       }
     }
-    for (const [, body] of src.matchAll(/^```mission\n([\s\S]*?)^```/gm)) {
-      if (!/^goal:/m.test(body)) problems.push(`${path}: a mission needs a goal: line`)
-      if (!/^check:/m.test(body)) problems.push(`${path}: a mission needs at least one check: line`)
-      for (const [, c] of body.matchAll(/^check:\s*(\S+)/gm)) if (!CHECKS.includes(c)) problems.push(`${path}: unknown check "${c}"`)
-    }
+    checkMissions(path, src)
   }
+}
+
+// practice problems: problems/NNN-slug.md, one mission and one solution each
+let practice = 0
+const numbers = new Set()
+for (const file of existsSync('problems') ? readdirSync('problems').filter(f => f.endsWith('.md')).sort() : []) {
+  const path = join('problems', file)
+  const src = readFileSync(path, 'utf8')
+  practice++
+  const n = file.match(/^(\d{3})-[a-z0-9-]+\.md$/)?.[1]
+  if (!n) problems.push(`${path}: problem file names look like 042-rebase-onto.md (three digits, a dash, lowercase words)`)
+  else if (numbers.has(n)) problems.push(`${path}: another problem already uses number ${n}`)
+  else numbers.add(n)
+  const fm = src.match(/^---\n([\s\S]*?)\n---/)?.[1] ?? ''
+  if (!/^title:\s*\S/m.test(fm)) problems.push(`${path}: add a title: line at the top`)
+  if (!/^difficulty:\s*(Easy|Medium|Hard)\s*$/m.test(fm)) problems.push(`${path}: difficulty must be Easy, Medium or Hard`)
+  if (!/^tags:\s*\S/m.test(fm)) problems.push(`${path}: add a tags: line, like tags: rebase, conflicts`)
+  if ((src.match(/^```mission$/gm) ?? []).length !== 1) problems.push(`${path}: a problem needs exactly one mission block`)
+  if (!/^```solution$/m.test(src)) problems.push(`${path}: add a solution block so learners can check their answer`)
+  if ((src.match(/^```/gm) ?? []).length % 2) problems.push(`${path}: a \`\`\` block is not closed`)
+  checkMissions(path, src)
 }
 
 if (problems.length) {
   console.error(`Found ${problems.length} problem(s):\n\n` + problems.map(p => '  ✗ ' + p).join('\n'))
   process.exit(1)
 }
-console.log(`All good: ${lessons} lessons checked.`)
+console.log(`All good: ${lessons} lessons and ${practice} problems checked.`)
