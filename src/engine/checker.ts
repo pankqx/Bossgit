@@ -54,6 +54,18 @@ export async function runChecks(shell: Shell, checks: string[]): Promise<CheckRe
           const files = await shell.treeFiles(dir!, await shell.resolve(dir!, b))
           ok = files.has(f); label = `${f} is saved on the ${b} branch`; break
         }
+        case 'branchlacks': {
+          const [b, f] = rest
+          const files = await shell.treeFiles(dir!, await shell.resolve(dir!, b))
+          ok = !files.has(f); label = `${f} is not on the ${b} branch`; break
+        }
+        case 'neverin': {
+          // neverin <file>: no commit in the current history contains the file
+          const list = snap.head.oid ? await shell.commitsFrom(dir!, [snap.head.oid]) : []
+          let found = false
+          for (const c of list) if ((await shell.treeFiles(dir!, c.oid)).has(arg)) { found = true; break }
+          ok = !found; label = `${arg} does not appear in any commit of your history`; break
+        }
         case 'file': ok = await shell.exists(shell.abs(arg)); label = `${arg} exists`; break
         case 'nofile': ok = !(await shell.exists(shell.abs(arg))); label = `${arg} does not exist`; break
         case 'dir': ok = await shell.isDir(shell.abs(arg)); label = `The folder ${arg} exists`; break
