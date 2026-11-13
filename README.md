@@ -5,9 +5,11 @@
 BossGit is a free course for people who have never used Git, all the way up to rebase, reflog and Git's internals. Every lesson has a lab beside it: a real Git repository running inside the browser tab, with a live picture of your commits. Missions check your work by reading that real repository.
 
 - No account, no install, no server. Progress is saved in your browser, with export and import.
-- 30 modules in 7 tracks: Before Git, Foundations, Branching, GitHub, Automation, Advanced, Mastery.
+- 31 modules and 197 lessons in 7 tracks: Before Git, Foundations, Branching, GitHub, Automation, Advanced, Mastery.
+- A capstone where you build your own Git and a mini GitHub (see `capstone/`).
+- 124 checked missions and 41 practice problems, every one played for real by `npm run verify`.
 - Practice problems in the style of LeetCode: Easy, Medium and Hard Git puzzles, each checked against a real repository.
-- About 90 to 110 hours from zero to the end, for an average computer science student (roughly 55 hours of lessons and labs, 30 of problems, 15 for the boss rush and capstone). One hour a day is about 3 to 4 months.
+- About 120 to 150 hours from zero to the end for an average computer science student: roughly 60 hours of lessons and labs, 30 of practice problems, and 30 to 50 for the capstone and boss rush. One hour a day is about 4 to 5 months.
 - Lessons are plain Markdown files. Anyone can add one.
 
 ## Run it on your computer
@@ -25,6 +27,7 @@ Open the address it prints (usually http://localhost:5173).
 |---|---|
 | `npm run dev` | Start the site on your computer. Changes show up instantly. |
 | `npm run check` | Check every lesson and problem file for mistakes. |
+| `npm run verify` | Play every mission and problem for real, with its answer, to prove each one can be solved. |
 | `npm run roadmap` | Rebuild the course list in ROADMAP.md after you write a lesson or problem. |
 | `npm run build` | Build the finished site into `dist/`. |
 

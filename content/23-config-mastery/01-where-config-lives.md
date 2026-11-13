@@ -18,8 +18,9 @@ You met three levels in module 2. There are actually **four**, plus a way to ove
 git config --list
 git config --global core.editor "code --wait"
 git config core.editor
-git -c user.name="Just Once" config user.name
 ```
+
+In a real terminal, `git -c user.name="Just Once" commit -m "..."` uses that name for one command only.
 
 ## Commands for real debugging
 

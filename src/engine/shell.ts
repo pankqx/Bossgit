@@ -898,7 +898,9 @@ export class Shell {
 
   private async gLog(dir: string, args: string[]) {
     const p = parseArgs(args, ['-n', '--author', '--grep', '-S', '-G'])
-    p.pos.splice(0, p.pos.length, ...p.pos.filter(a => !/^-\d+$/.test(a)))
+    const dd = args.indexOf('--')
+    const paths = dd >= 0 ? args.slice(dd + 1) : []
+    p.pos.splice(0, p.pos.length, ...p.pos.slice(0, p.pos.length - paths.length).filter(a => !/^-\d+$/.test(a)))
     const head = await this.headOid(dir)
     if (!head) fail(`fatal: your current branch '${await this.branch(dir)}' does not have any commits yet`)
     let limit = Number(p.get('-n') ?? (args.find(a => /^-\d+$/.test(a))?.slice(1)) ?? 1000)

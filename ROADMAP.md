@@ -6,7 +6,7 @@ This file lists everything still to build. Pick one item, make a branch, do it, 
 
 Lessons marked ✅ are written. The rest are planned: each one is listed in its module's `module.md` under **Planned lessons**. When you write one, remove it from that list.
 
-**19 lessons written, 168 planned.**
+**197 lessons written, 0 planned.**
 
 ### M00 · Terminal basics (Before Git)
 
@@ -20,14 +20,14 @@ Lessons marked ✅ are written. The rest are planned: each one is listed in its 
 - ✅ final_v7_REALLY_final.docx
 - ✅ Commits are save points
 - ✅ Git is not GitHub
-- [ ] Centralized and distributed version control
+- ✅ Centralized and distributed version control
 
 ### M02 · Set up Git (Foundations)
 
 - ✅ Installing Git on your computer
 - ✅ Tell Git who you are
-- [ ] Config levels: system, global and local
-- [ ] Getting help from Git itself
+- ✅ "Config levels: system, global and local"
+- ✅ Getting help from Git itself
 
 ### M03 · Your first repository (Foundations)
 
@@ -40,250 +40,263 @@ Lessons marked ✅ are written. The rest are planned: each one is listed in its 
 
 ### M04 · Reading history (Foundations)
 
-- [ ] git log and its most useful options
-- [ ] git show: one commit up close
-- [ ] git diff and git diff --staged
-- [ ] Reading a diff line by line
-- [ ] .gitignore: files Git should never see
-- [ ] git blame: who wrote this line?
+- ✅ git log and its most useful options
+- ✅ "git show: one commit up close"
+- ✅ git diff and git diff --staged
+- ✅ Reading a diff line by line
+- ✅ ".gitignore: files Git should never see"
+- ✅ "git blame: who wrote this line?"
 
 ### M05 · Undoing things safely (Foundations)
 
-- [ ] git restore: throw away a change
-- [ ] Unstage a file
-- [ ] Fix the last commit with --amend
-- [ ] git revert: undo by adding a commit
-- [ ] git reset: soft, mixed and hard
-- [ ] Which undo do I need?
+- ✅ "git restore: throw away a change"
+- ✅ Unstage a file
+- ✅ Fix the last commit with --amend
+- ✅ "git revert: undo by adding a commit"
+- ✅ "git reset: soft, mixed and hard"
+- ✅ Which undo do I need?
 
 ### M06 · Branches (Branching)
 
 - ✅ A branch is a sticky note
 - ✅ HEAD means "you are here"
 - ✅ Creating and switching branches
-- [ ] Listing, renaming and deleting branches
-- [ ] Detached HEAD, and how to get out
-- [ ] Naming branches well
+- ✅ Listing, renaming and deleting branches
+- ✅ Detached HEAD, and how to get out
+- ✅ Naming branches well
 
 ### M07 · Merging and conflicts (Branching)
 
 - ✅ The simplest merge, fast-forward
-- [ ] Three-way merges and merge commits
-- [ ] Why conflicts happen
-- [ ] Resolving a conflict step by step
-- [ ] git merge --abort
-- [ ] Merge strategies in plain words
+- ✅ Three-way merges and merge commits
+- ✅ Why conflicts happen
+- ✅ Resolving a conflict step by step
+- ✅ git merge --abort
+- ✅ Merge strategies in plain words
 
 ### M08 · Rebase (Branching)
 
-- [ ] Rebase vs merge, side by side
-- [ ] git rebase main
-- [ ] Conflicts during a rebase
-- [ ] Interactive rebase: squash, fixup, reword, drop
-- [ ] The golden rule: never rebase shared history
-- [ ] Merge or rebase? A flowchart
+- ✅ Rebase vs merge, side by side
+- ✅ git rebase main
+- ✅ Conflicts during a rebase
+- ✅ "Interactive rebase: squash, fixup, reword, drop"
+- ✅ "The golden rule: never rebase shared history"
+- ✅ Merge or rebase? A flowchart
 
 ### M09 · Stash, cherry-pick and tags (Branching)
 
-- [ ] git stash: put work aside
-- [ ] git cherry-pick: copy one commit
-- [ ] Lightweight and annotated tags
-- [ ] Semantic versioning
-- [ ] Bring back an old file
-- [ ] Scenario: the Friday hotfix
+- ✅ "git stash: put work aside"
+- ✅ "git cherry-pick: copy one commit"
+- ✅ Lightweight and annotated tags
+- ✅ Semantic versioning
+- ✅ Bring back an old file
+- ✅ "Scenario: the Friday hotfix"
 
 ### M10 · GitHub and remotes (GitHub)
 
-- [ ] Your GitHub account and profile
-- [ ] SSH keys and HTTPS tokens
-- [ ] git clone and origin
-- [ ] git push and upstream
-- [ ] fetch vs pull
-- [ ] When a push is rejected
+- ✅ Your GitHub account and profile
+- ✅ SSH keys and HTTPS tokens
+- ✅ git clone and origin
+- ✅ git push and upstream
+- ✅ fetch vs pull
+- ✅ When a push is rejected
 
 ### M11 · Pull requests and code review (GitHub)
 
-- [ ] Branch, push, open a pull request
-- [ ] Writing a description people want to read
-- [ ] Reviewing: comments, suggestions, approvals
-- [ ] Draft pull requests
-- [ ] Merge, squash or rebase?
-- [ ] Taking feedback without stress
+- ✅ Branch, push, open a pull request
+- ✅ Writing a description people want to read
+- ✅ "Reviewing: comments, suggestions, approvals"
+- ✅ Draft pull requests
+- ✅ Merge, squash or rebase?
+- ✅ Taking feedback without stress
 
 ### M12 · Issues, projects and Markdown (GitHub)
 
-- [ ] Writing a good issue
-- [ ] Labels, milestones and assignees
-- [ ] Closing issues from a pull request
-- [ ] GitHub Projects boards
-- [ ] Markdown you will actually use
-- [ ] Discussions and templates
+- ✅ Writing a good issue
+- ✅ Labels, milestones and assignees
+- ✅ Closing issues from a pull request
+- ✅ GitHub Projects boards
+- ✅ Markdown you will actually use
+- ✅ Discussions and templates
 
 ### M13 · Team workflows (GitHub)
 
-- [ ] GitHub Flow
-- [ ] Git Flow
-- [ ] Trunk-based development
-- [ ] Branch protection and rulesets
-- [ ] CODEOWNERS
-- [ ] Conventional Commits
+- ✅ GitHub Flow
+- ✅ Git Flow
+- ✅ Trunk-based development
+- ✅ Branch protection and rulesets
+- ✅ CODEOWNERS
+- ✅ Conventional Commits
 
 ### M14 · Open source (GitHub)
 
-- [ ] Forks and upstream
-- [ ] Keeping a fork in sync
-- [ ] Finding a good first issue
-- [ ] Reading CONTRIBUTING.md
-- [ ] Licenses in plain English
-- [ ] How maintainers think
+- ✅ Forks and upstream
+- ✅ Keeping a fork in sync
+- ✅ Finding a good first issue
+- ✅ Reading CONTRIBUTING.md
+- ✅ Licenses in plain English
+- ✅ How maintainers think
 
 ### M15 · GitHub Actions (Automation)
 
-- [ ] What CI is
-- [ ] Workflow files: triggers, jobs and steps
-- [ ] Run tests on every pull request
-- [ ] Matrix builds
-- [ ] Secrets, caching and artifacts
-- [ ] Deploy to GitHub Pages
+- ✅ What CI is
+- ✅ "Workflow files: triggers, jobs and steps"
+- ✅ Run tests on every pull request
+- ✅ Matrix builds
+- ✅ Secrets, caching and artifacts
+- ✅ Deploy to GitHub Pages
 
 ### M16 · The GitHub toolbox (Automation)
 
-- [ ] GitHub Pages
-- [ ] Releases and changelogs
-- [ ] The gh command line tool
-- [ ] Codespaces
-- [ ] A profile README that stands out
-- [ ] How the contribution graph counts
+- ✅ GitHub Pages
+- ✅ Releases and changelogs
+- ✅ The gh command line tool
+- ✅ Codespaces
+- ✅ A profile README that stands out
+- ✅ How the contribution graph counts
 
 ### M17 · Rescue and rewriting (Advanced)
 
-- [ ] git reflog: Git's black box
-- [ ] Recovering a deleted branch
-- [ ] Undoing a bad reset --hard
-- [ ] Force push and --force-with-lease
-- [ ] Removing a secret from history
-- [ ] git filter-repo
+- ✅ "git reflog: Git's black box"
+- ✅ Recovering a deleted branch
+- ✅ Undoing a bad reset --hard
+- ✅ Force push and --force-with-lease
+- ✅ Removing a secret from history
+- ✅ git filter-repo
 
 ### M18 · Detective work (Advanced)
 
-- [ ] git bisect by hand
-- [ ] git bisect run
-- [ ] Searching history with log -S and -G
-- [ ] Blame that ignores moves and whitespace
-- [ ] shortlog and statistics
-- [ ] Case study: hunting a real bug
+- ✅ git bisect by hand
+- ✅ git bisect run
+- ✅ Searching history with log -S and -G
+- ✅ Blame that ignores moves and whitespace
+- ✅ shortlog and statistics
+- ✅ "Case study: hunting a real bug"
 
 ### M19 · Git internals (Advanced)
 
-- [ ] A tour of the .git folder
-- [ ] Blobs, trees, commits and tags
-- [ ] Hashes and why they matter
-- [ ] Plumbing commands
-- [ ] Refs and the index file
-- [ ] Make a commit without git commit
+- ✅ A tour of the .git folder
+- ✅ Blobs, trees, commits and tags
+- ✅ Hashes and why they matter
+- ✅ Plumbing commands
+- ✅ Refs and the index file
+- ✅ Make a commit without git commit
 
 ### M20 · Power tools (Advanced)
 
-- [ ] Worktrees
-- [ ] Submodules and subtrees
-- [ ] Sparse checkout and partial clone
-- [ ] Git LFS for big files
-- [ ] git rerere: let Git remember conflict fixes
-- [ ] Aliases and .gitattributes
+- ✅ Worktrees
+- ✅ Submodules and subtrees
+- ✅ Sparse checkout and partial clone
+- ✅ Git LFS for big files
+- ✅ "git rerere: let Git remember conflict fixes"
+- ✅ Aliases and .gitattributes
 
 ### M21 · Security (Advanced)
 
-- [ ] Two-factor authentication
-- [ ] Signed commits and the Verified badge
-- [ ] Secret scanning and push protection
-- [ ] Dependabot
-- [ ] SECURITY.md and responsible disclosure
-- [ ] Supply chain basics
+- ✅ Two-factor authentication
+- ✅ Signed commits and the Verified badge
+- ✅ Secret scanning and push protection
+- ✅ Dependabot
+- ✅ SECURITY.md and responsible disclosure
+- ✅ Supply chain basics
 
 ### M22 · Git at scale (Advanced)
 
-- [ ] Monorepos vs many repositories
-- [ ] Merge queues
-- [ ] Release branches and hotfixes
-- [ ] Automatic changelogs and versions
-- [ ] Performance in huge repositories
-- [ ] Case studies: Linux and big tech
+- ✅ Monorepos vs many repositories
+- ✅ Merge queues
+- ✅ Release branches and hotfixes
+- ✅ Automatic changelogs and versions
+- ✅ Performance in huge repositories
+- ✅ "Case studies: Linux and big tech"
 
 ### M23 · Git configuration mastery (Advanced)
 
-- [ ] Where config lives: system, global, local and worktree
-- [ ] Conditional includes: work and personal identities
-- [ ] Aliases that save hours
-- [ ] Better diffs: diff tools, word diff and color moved
-- [ ] Merge and conflict settings: diff3, zdiff3 and mergetool
-- [ ] Line endings and .gitattributes
-- [ ] pull.rebase, push.autoSetupRemote and other modern defaults
-- [ ] Credential helpers and SSH keys
+- ✅ "Where config lives: system, global, local and worktree"
+- ✅ "Conditional includes: work and personal identities"
+- ✅ Aliases that save hours
+- ✅ "Better diffs: diff tools, word diff and color moved"
+- ✅ "Merge and conflict settings: diff3, zdiff3 and mergetool"
+- ✅ Line endings and .gitattributes
+- ✅ pull.rebase, push.autoSetupRemote and other modern defaults
+- ✅ Credential helpers and SSH keys
 
 ### M24 · Hooks and automation (Automation)
 
-- [ ] What a hook is and where hooks live
-- [ ] pre-commit: lint and format before every commit
-- [ ] commit-msg: enforce Conventional Commits
-- [ ] pre-push: run tests before you push
-- [ ] Sharing hooks with a team: core.hooksPath, Husky and pre-commit
-- [ ] Server-side hooks and why GitHub uses rules instead
-- [ ] When hooks get in the way, and --no-verify
+- ✅ What a hook is and where hooks live
+- ✅ "pre-commit: lint and format before every commit"
+- ✅ "commit-msg: enforce Conventional Commits"
+- ✅ "pre-push: run tests before you push"
+- ✅ "Sharing hooks with a team: core.hooksPath, Husky and pre-commit"
+- ✅ Server-side hooks and why GitHub uses rules instead
+- ✅ When hooks get in the way, and --no-verify
 
 ### M25 · Git internals II (Advanced)
 
-- [ ] Loose objects vs packfiles
-- [ ] Delta compression: how Git saves space
-- [ ] git gc, prune and unreachable objects
-- [ ] How fetch and push talk to a server
-- [ ] Shallow clones and partial clones in depth
-- [ ] The commit-graph and multi-pack index
-- [ ] SHA-1, SHA-256 and the hash transition
-- [ ] Repairing a corrupted repository with fsck
+- ✅ Loose objects vs packfiles
+- ✅ "Delta compression: how Git saves space"
+- ✅ git gc, prune and unreachable objects
+- ✅ How fetch and push talk to a server
+- ✅ Shallow clones and partial clones in depth
+- ✅ The commit-graph and multi-pack index
+- ✅ SHA-1, SHA-256 and the hash transition
+- ✅ Repairing a corrupted repository with fsck
 
 ### M26 · GitHub for organizations (GitHub)
 
-- [ ] Organizations, teams and roles
-- [ ] Permissions: read, triage, write, maintain and admin
-- [ ] CODEOWNERS and required reviews
-- [ ] Rulesets and branch protection in depth
-- [ ] GitHub Projects for planning
-- [ ] Templates: issue forms, PR templates and repository templates
-- [ ] Inner source: open source habits inside a company
-- [ ] Audit logs and leaving a company cleanly
+- ✅ Organizations, teams and roles
+- ✅ "Permissions: read, triage, write, maintain and admin"
+- ✅ CODEOWNERS and required reviews
+- ✅ Rulesets and branch protection in depth
+- ✅ GitHub Projects for planning
+- ✅ "Templates: issue forms, PR templates and repository templates"
+- ✅ "Inner source: open source habits inside a company"
+- ✅ Audit logs and leaving a company cleanly
 
 ### M27 · The GitHub platform (Automation)
 
-- [ ] The REST API with curl and gh api
-- [ ] The GraphQL API: ask for exactly what you need
-- [ ] Webhooks: let GitHub call your server
-- [ ] GitHub Apps vs OAuth Apps vs tokens
-- [ ] Reusable workflows and composite actions
-- [ ] Write your own JavaScript action
-- [ ] OIDC: deploy to the cloud with no stored secrets
-- [ ] GitHub Packages and container registry
-- [ ] Codespaces and dev containers
-- [ ] Copilot and AI in the pull request flow
+- ✅ The REST API with curl and gh api
+- ✅ "The GraphQL API: ask for exactly what you need"
+- ✅ "Webhooks: let GitHub call your server"
+- ✅ GitHub Apps vs OAuth Apps vs tokens
+- ✅ Reusable workflows and composite actions
+- ✅ Write your own JavaScript action
+- ✅ "OIDC: deploy to the cloud with no stored secrets"
+- ✅ GitHub Packages and container registry
+- ✅ Codespaces and dev containers
+- ✅ Copilot and AI in the pull request flow
 
 ### M28 · Professional workflows and interviews (Mastery)
 
-- [ ] Trunk-based development vs Git Flow vs GitHub Flow
-- [ ] Atomic commits and how to tell a story with history
-- [ ] Stacked pull requests
-- [ ] Code review: giving and receiving feedback
-- [ ] Semantic versioning and release trains
-- [ ] Feature flags instead of long-lived branches
-- [ ] Twenty Git questions interviewers love
-- [ ] Explaining merge vs rebase to a junior developer
+- ✅ Trunk-based development vs Git Flow vs GitHub Flow
+- ✅ Atomic commits and how to tell a story with history
+- ✅ Stacked pull requests
+- ✅ "Code review: giving and receiving feedback"
+- ✅ Semantic versioning and release trains
+- ✅ Feature flags instead of long-lived branches
+- ✅ Twenty Git questions interviewers love
+- ✅ Explaining merge vs rebase to a junior developer
 
-### M29 · Boss Rush (Mastery)
+### M29 · "Capstone: build your own Git and GitHub" (Mastery)
 
-- [ ] Ten disaster scenarios, timed
-- [ ] Capstone: build a mini Git
-- [ ] Fifty interview questions
-- [ ] Teach it back
-- [ ] Your BossGit certificate
-- [ ] Where to go next
+- ✅ The brief
+- ✅ "Part 1: blobs, hashing and the object store"
+- ✅ "Part 2: the staging area and trees"
+- ✅ "Part 3: commits, refs and log"
+- ✅ "Part 4: branches, switch and status"
+- ✅ "Part 5: prove it works with real Git"
+- ✅ "Part 6: MiniHub, a server that hosts repositories"
+- ✅ "Part 7: pull requests and the merge button"
+- ✅ "Part 8: ship it like a professional team"
+- ✅ "Part 9: present it, and what you can now say"
+
+### M30 · Boss Rush (Mastery)
+
+- ✅ Ten disaster scenarios, timed
+- ✅ Fifty interview questions
+- ✅ Teach it back
+- ✅ The Final Boss
+- ✅ Your BossGit certificate
+- ✅ Where to go next
 
 ## Practice problems
 
