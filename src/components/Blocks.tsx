@@ -37,12 +37,12 @@ export function Solution({ text }: { text: string }) {
       {!open ? (
         <div className="flex flex-wrap items-center justify-between gap-3">
           <span className="text-ink-2">Stuck for more than 20 minutes? The solution is here.</span>
-          <button onClick={() => setOpen(true)} className="px-4 py-2 rounded-full border border-line hover:border-ink text-sm">Show solution</button>
+          <button onClick={() => setOpen(true)} className="px-4 py-2 rounded-full border-[1.5px] border-ink hover:bg-paper-2 text-sm">Show solution</button>
         </div>
       ) : (
         <div>
           <div className="eyebrow mb-3">One solution</div>
-          <pre className="font-mono text-[14px] leading-relaxed bg-[#1c1916] text-[#e8e1d7] rounded-lg p-4 overflow-x-auto">{text.trimEnd().split('\n').map(l => (l.startsWith('#') || !l.trim() ? l : '$ ' + l)).join('\n')}</pre>
+          <pre className="font-mono text-[14px] leading-relaxed bg-[#0e1a2e] text-[#e4ebf6] rounded-lg p-4 overflow-x-auto">{text.trimEnd().split('\n').map(l => (l.startsWith('#') || !l.trim() ? l : '$ ' + l)).join('\n')}</pre>
           <p className="mt-3 text-sm text-mute">Close it, reset the lab, and solve it again from memory. That is when it sticks.</p>
         </div>
       )}
@@ -71,7 +71,7 @@ function Box({ kind, text }: { kind: keyof typeof BOX; text: string }) {
 function Try({ commands, lab }: { commands: string[]; lab: Lab }) {
   const [ran, setRan] = useState<number[]>([])
   return (
-    <div className="rounded-xl bg-[#1c1916] text-[#e8e1d7] overflow-hidden">
+    <div className="rounded-xl bg-[#0e1a2e] text-[#e4ebf6] overflow-hidden">
       <div className="flex items-center justify-between px-4 py-2 border-b border-white/10">
         <span className="font-mono text-[11px] tracking-[0.14em] uppercase text-[#a39a8f]">Try it</span>
         <span className="font-mono text-[11px] text-[#a39a8f] hidden sm:inline">click a line to run it in the lab</span>
@@ -83,7 +83,7 @@ function Try({ commands, lab }: { commands: string[]; lab: Lab }) {
               onClick={async () => { await lab.type(c); setRan(r => [...r, i]) }}
               className="group w-full text-left px-4 py-1.5 font-mono text-[13.5px] flex items-center gap-3 hover:bg-white/5 transition"
             >
-              <span className={ran.includes(i) ? 'text-[#9cc28a]' : 'text-[#e8664a]'}>{ran.includes(i) ? '✓' : '$'}</span>
+              <span className={ran.includes(i) ? 'text-[#9cc28a]' : 'text-[#ff7440]'}>{ran.includes(i) ? '✓' : '$'}</span>
               <span className="flex-1 break-all">{c}</span>
               <span className="text-[11px] text-[#a39a8f] opacity-0 group-hover:opacity-100 transition">run ↵</span>
             </button>
@@ -109,7 +109,7 @@ function QuizQuestion({ q, n, total }: { q: Question; n: number; total: number }
   const show = picked !== null || done
   const name = useId()
   return (
-    <fieldset className="rounded-xl border border-line bg-card p-5 sm:p-6">
+    <fieldset className="rounded-xl border-[1.5px] border-ink bg-card p-5 sm:p-6">
       <legend className="sr-only">Question {n}</legend>
       <div className="eyebrow mb-2">Quick check{total > 1 ? ` · ${n} of ${total}` : ''}</div>
       <p className="text-lg font-semibold leading-snug mb-4">{q.q}</p>
@@ -155,7 +155,7 @@ function MissionCard({ mission, lab }: { mission: Mission; lab: Lab }) {
   }
   const passed = results?.every(r => r.ok)
   return (
-    <section className={`rounded-2xl p-6 sm:p-7 ${mission.boss ? 'bg-ink text-paper' : 'bg-paper-2 border border-line'}`}>
+    <section className={`rounded-2xl p-6 sm:p-7 ${mission.boss ? 'bg-ink text-paper border-[1.5px] border-ink shadow-[5px_5px_0_var(--signal)]' : 'bg-paper-2 border-[1.5px] border-ink'}`}>
       <div className="flex items-center gap-3 mb-3">
         <span className={`eyebrow ${mission.boss ? '!text-signal' : ''}`}>{mission.boss ? 'Boss fight' : 'Mission'}</span>
         {done && <span className="font-mono text-[11px] px-2 py-0.5 rounded-full bg-moss text-paper">cleared</span>}
@@ -218,7 +218,7 @@ function Flow({ code }: { code: string }) {
     return () => { alive = false }
   }, [code, id])
   return (
-    <figure className="rounded-xl border border-line bg-card p-5 overflow-x-auto">
+    <figure className="rounded-xl border-[1.5px] border-ink bg-card p-5 overflow-x-auto">
       <div className="eyebrow mb-3">Flowchart</div>
       <div className="mermaid-box flex justify-center min-h-24" dangerouslySetInnerHTML={{ __html: svg }} />
     </figure>

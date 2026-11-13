@@ -54,7 +54,7 @@ export default function LabPanel({ lab, onReset, height = 300, welcome }: { lab:
   const snap = useSnapshot(lab)
   return (
     <div className="flex flex-col gap-3">
-      <div className="rounded-xl border border-line bg-card overflow-hidden">
+      <div className="rounded-xl border-[1.5px] border-ink bg-card overflow-hidden">
         <div className="flex items-center justify-between px-3.5 py-2 border-b border-line">
           <span className="eyebrow">History</span>
           <span className="font-mono text-[11px] text-mute truncate ml-3">

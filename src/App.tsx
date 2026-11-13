@@ -1,16 +1,18 @@
+import { lazy } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout'
 import Landing from './pages/Landing'
-import Learn from './pages/Learn'
-import ModulePage from './pages/ModulePage'
-import LessonPage from './pages/LessonPage'
-import Playground from './pages/Playground'
-import Cheatsheet from './pages/Cheatsheet'
-import Rescue from './pages/Rescue'
-import Me from './pages/Me'
-import Problems from './pages/Problems'
-import ProblemPage from './pages/ProblemPage'
-import NotFound from './pages/NotFound'
+const Learn = lazy(() => import('./pages/Learn'))
+const ModulePage = lazy(() => import('./pages/ModulePage'))
+const LessonPage = lazy(() => import('./pages/LessonPage'))
+const Playground = lazy(() => import('./pages/Playground'))
+const Cheatsheet = lazy(() => import('./pages/Cheatsheet'))
+const Rescue = lazy(() => import('./pages/Rescue'))
+const Me = lazy(() => import('./pages/Me'))
+const Problems = lazy(() => import('./pages/Problems'))
+const Certificate = lazy(() => import('./pages/Certificate'))
+const ProblemPage = lazy(() => import('./pages/ProblemPage'))
+const NotFound = lazy(() => import('./pages/NotFound'))
 
 // Hash routing (#/learn) works on GitHub Pages with no server setup.
 export default function App() {
@@ -28,6 +30,7 @@ export default function App() {
           <Route path="cheatsheet" element={<Cheatsheet />} />
           <Route path="rescue" element={<Rescue />} />
           <Route path="me" element={<Me />} />
+          <Route path="certificate" element={<Certificate />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

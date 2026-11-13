@@ -46,7 +46,7 @@ export default function Problems() {
           <h1 className="font-display font-extrabold text-[clamp(2.4rem,5vw,4.2rem)] leading-[0.95] tracking-[-0.04em]">{problems.length} Git problems. <span className="font-serif italic font-normal">Real repos. Real checks.</span></h1>
           <p className="mt-5 font-serif text-xl text-ink-2 max-w-2xl">Like coding practice, but for Git. Each problem drops you into a broken or unfinished repository. Fix it with real commands, then press Submit. BossGit inspects the repository and tells you what is still wrong.</p>
         </div>
-        <div className="rounded-2xl border border-line bg-card p-6 flex flex-col gap-5">
+        <div className="rounded-2xl border-[1.5px] border-ink bg-card p-6 flex flex-col gap-5">
           <div className="flex justify-between items-baseline"><span className="eyebrow">Solved</span><span className="font-display font-extrabold text-3xl tabular-nums">{Object.keys(solved).filter(s => problems.some(x => x.slug === s)).length}<span className="text-mute text-xl">/{problems.length}</span></span></div>
           <div className="grid grid-cols-3 gap-2">
             {(['Easy', 'Medium', 'Hard'] as Difficulty[]).map(d => <Ring key={d} label={d} total={count(d).length} done={count(d).filter(x => solved[x.slug]).length} />)}

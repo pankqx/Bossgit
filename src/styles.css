@@ -1,59 +1,66 @@
 @import "tailwindcss";
 
 /*
-  BossGit design tokens.
-  Warm paper and dark ink, like a printed manual. One signal red for HEAD
-  and calls to action. Three graph colours: moss for commits, ochre for
-  branches, slate for remotes. Change a colour here and the whole site follows.
+  BossGit design tokens: "the drafting table".
+  Light mode is cream drafting paper with a faint grid and navy ink line art.
+  Dark mode is a blueprint. One signal orange for HEAD and calls to action,
+  one lime highlighter for the thing to remember. Graph colours: moss for
+  commits, ochre for branches, slate for remotes.
 */
 :root {
-  --paper: #f3efe8;
-  --paper-2: #ebe5dc;
-  --card: #faf8f4;
-  --ink: #1f1b18;
-  --ink-2: #4a433d;
-  --mute: #7a7068;
-  --line: #d9d1c6;
-  --signal: #c2462e;
-  --moss: #3f6b4e;
-  --ochre: #b07a1f;
-  --slate: #3c5a78;
-  --term-bg: #1c1916;
-  --term-fg: #e8e1d7;
+  --paper: #f5f2e9;
+  --paper-2: #ece7da;
+  --card: #fbf9f4;
+  --ink: #14213d;
+  --ink-2: #3a4664;
+  --mute: #6c7690;
+  --line: #d3d4d4;
+  --grid: rgba(20, 33, 61, 0.055);
+  --signal: #f0511b;
+  --lime: #c8f03c;
+  --moss: #23805a;
+  --ochre: #c4870c;
+  --slate: #2f5cb8;
+  --term-bg: #0e1a2e;
+  --term-fg: #e4ebf6;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #151311;
-    --paper-2: #1c1a17;
-    --card: #1f1c19;
-    --ink: #efe8de;
-    --ink-2: #c9bfb2;
-    --mute: #988d81;
-    --line: #34302b;
-    --signal: #e8664a;
-    --moss: #7fb08d;
-    --ochre: #d9a648;
-    --slate: #86a7c9;
-    --term-bg: #0f0d0c;
-    --term-fg: #e8e1d7;
+    --paper: #0b1a2e;
+    --paper-2: #10243f;
+    --card: #0e2038;
+    --ink: #e9eff9;
+    --ink-2: #b4c2da;
+    --mute: #7d8eab;
+    --line: #22395c;
+    --grid: rgba(150, 190, 255, 0.07);
+    --signal: #ff7440;
+    --lime: #d4ff4f;
+    --moss: #6dd3a0;
+    --ochre: #f2bb4c;
+    --slate: #8db1ff;
+    --term-bg: #071222;
+    --term-fg: #e4ebf6;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --paper: #151311;
-  --paper-2: #1c1a17;
-  --card: #1f1c19;
-  --ink: #efe8de;
-  --ink-2: #c9bfb2;
-  --mute: #988d81;
-  --line: #34302b;
-  --signal: #e8664a;
-  --moss: #7fb08d;
-  --ochre: #d9a648;
-  --slate: #86a7c9;
-  --term-bg: #0f0d0c;
-  --term-fg: #e8e1d7;
+  --paper: #0b1a2e;
+  --paper-2: #10243f;
+  --card: #0e2038;
+  --ink: #e9eff9;
+  --ink-2: #b4c2da;
+  --mute: #7d8eab;
+  --line: #22395c;
+  --grid: rgba(150, 190, 255, 0.07);
+  --signal: #ff7440;
+  --lime: #d4ff4f;
+  --moss: #6dd3a0;
+  --ochre: #f2bb4c;
+  --slate: #8db1ff;
+  --term-bg: #071222;
+  --term-fg: #e4ebf6;
   color-scheme: dark;
 }
 
@@ -69,20 +76,25 @@
   --color-moss: var(--moss);
   --color-ochre: var(--ochre);
   --color-slate: var(--slate);
-  --font-display: "Schibsted Grotesk Variable", "Helvetica Neue", Arial, sans-serif;
+  --color-lime: var(--lime);
+  --font-display: "Bricolage Grotesque Variable", "Schibsted Grotesk Variable", "Helvetica Neue", Arial, sans-serif;
   --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
   --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
 }
 
 html { background: var(--paper); }
 body {
-  background: var(--paper);
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px;
   color: var(--ink);
   font-family: var(--font-display);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
-::selection { background: var(--signal); color: var(--paper); }
+::selection { background: var(--lime); color: #14213d; }
 :focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 4px; }
 h1, h2, h3 { text-wrap: balance; }
 
@@ -150,3 +162,53 @@ h1, h2, h3 { text-wrap: balance; }
 .bg-mark .m-dot { animation-delay: 1.2s; }
 @keyframes draw { to { stroke-dashoffset: 0; } }
 @keyframes pop { to { transform: scale(1); } }
+
+/* ---------- line-art system ---------- */
+/* a drawn card: ink outline and a hard offset shadow, like a sketch on paper */
+.drawn { background: var(--card); border: 1.5px solid var(--ink); border-radius: 14px; box-shadow: 4px 4px 0 var(--ink); }
+.drawn-soft { background: var(--card); border: 1.5px solid var(--line); border-radius: 14px; }
+a.drawn, button.drawn, .drawn-hover { transition: transform .18s ease, box-shadow .18s ease; }
+a.drawn:hover, button.drawn:hover, .drawn-hover:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+a.drawn:active, button.drawn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
+/* a pill button drawn in ink */
+.btn-ink { display: inline-flex; align-items: center; gap: .6rem; background: var(--ink); color: var(--paper); border: 1.5px solid var(--ink); border-radius: 999px; padding: .85rem 1.4rem; font-weight: 650; box-shadow: 3px 3px 0 var(--signal); transition: transform .18s ease, box-shadow .18s ease; }
+.btn-ink:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--signal); }
+.btn-line { display: inline-flex; align-items: center; gap: .6rem; background: transparent; color: var(--ink); border: 1.5px solid var(--ink); border-radius: 999px; padding: .85rem 1.4rem; font-weight: 600; transition: background .18s ease; }
+.btn-line:hover { background: var(--paper-2); }
+/* highlighter mark */
+.hl { -webkit-box-decoration-break: clone; box-decoration-break: clone; background: linear-gradient(var(--lime), var(--lime)); background-size: 100% 0.55em; background-position: 0 88%; background-repeat: no-repeat; padding: 0 .06em; margin: 0 -.06em; color: inherit; }
+:root[data-theme="dark"] .hl { color: inherit; }
+/* dashed construction line */
+.dashline { border-top: 1.5px dashed var(--line); }
+/* draw any svg path with pathLength=1 */
+.draw-in { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.4s cubic-bezier(.6,.05,.3,1) forwards; }
+.pop-in { transform-box: fill-box; transform-origin: center; transform: scale(0); animation: pop .45s cubic-bezier(.3,1.6,.5,1) forwards; }
+.float-y { animation: floaty 6s ease-in-out infinite; }
+@keyframes floaty { 50% { transform: translateY(-6px); } }
+.spin-slow { animation: spin 18s linear infinite; transform-origin: center; transform-box: fill-box; }
+@keyframes spin { to { transform: rotate(360deg); } }
+/* a draw-in that only starts when the element scrolls into view (class added by JS) */
+.reveal .draw-on-view { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.reveal.seen .draw-on-view { animation: draw 1.6s cubic-bezier(.6,.05,.3,1) forwards; }
+
+/* ---------- the loader ---------- */
+.bg-loader { position: fixed; inset: 0; display: grid; place-items: center; background: var(--paper); z-index: 100; }
+.bg-loader-mark path { stroke-dasharray: 1; stroke-dashoffset: 1; animation: loaddraw 1.8s cubic-bezier(.6,.05,.3,1) infinite; }
+.bg-loader-mark .l2 { animation-delay: .25s; } .bg-loader-mark .l3 { animation-delay: .5s; }
+.bg-loader-mark circle { transform-box: fill-box; transform-origin: center; animation: loadpop 1.8s ease-in-out infinite; }
+@keyframes loaddraw { 0% { stroke-dashoffset: 1; } 55%, 80% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -1; } }
+@keyframes loadpop { 0%, 30% { transform: scale(0); } 50%, 85% { transform: scale(1); } 100% { transform: scale(0); } }
+
+/* phones: keep long code and tables inside the screen */
+@media (max-width: 640px) {
+  .prose-bg { font-size: 1.06rem; }
+  .prose-bg pre { font-size: 0.8rem; padding: .85rem; border-radius: 8px; }
+  .prose-bg h2 { font-size: 1.38rem; }
+  body { background-size: 22px 22px; }
+}
+:root[data-theme="dark"] .hl { background-image: linear-gradient(rgba(212,255,79,.32), rgba(212,255,79,.32)); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hl { background-image: linear-gradient(rgba(212,255,79,.32), rgba(212,255,79,.32)); } }
+@media print {
+  body { background: #fff !important; background-image: none !important; }
+  @page { margin: 12mm; }
+}

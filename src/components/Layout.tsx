@@ -1,6 +1,6 @@
 import { NavLink, Link, Outlet, useLocation } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import { Wordmark } from './Logo'
+import { Suspense, useEffect, useState } from 'react'
+import { Wordmark, Loader } from './Logo'
 import { useProgress, streak, level } from '../store/progress'
 
 const NAV = [
@@ -37,16 +37,16 @@ export default function Layout() {
   useEffect(() => { window.scrollTo(0, 0); setOpen(false) }, [pathname])
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="sticky z-30 bg-paper/90 backdrop-blur-md border-b border-line" style={{ top: 'env(safe-area-inset-top, 0px)' }}>
+      <header className="print:hidden sticky z-30 bg-paper/90 backdrop-blur-md border-b-[1.5px] border-ink" style={{ top: 'env(safe-area-inset-top, 0px)' }}>
         <div className="gutter max-w-[1400px] mx-auto h-16 flex items-center gap-6">
           <Link to="/" className="shrink-0" aria-label="BossGit home"><Wordmark size={28} /></Link>
           <nav className="hidden md:flex items-center gap-1 text-[15px]">
             {NAV.map(n => (
-              <NavLink key={n.to} to={n.to} className={({ isActive }) => `px-3 py-1.5 rounded-full transition ${isActive ? 'bg-ink text-paper' : 'text-ink-2 hover:bg-paper-2'}`}>{n.label}</NavLink>
+              <NavLink key={n.to} to={n.to} className={({ isActive }) => `px-3 py-1.5 rounded-full transition ${isActive ? 'bg-ink text-paper' : 'text-ink-2 hover:bg-paper-2 hover:text-ink'}`}>{n.label}</NavLink>
             ))}
           </nav>
           <div className="ml-auto flex items-center gap-2">
-            <Link to="/me" className="hidden sm:flex items-center gap-3 pl-3 pr-1.5 py-1 rounded-full border border-line hover:border-ink-2 transition text-sm">
+            <Link to="/me" className="hidden sm:flex items-center gap-3 pl-3 pr-1.5 py-1 rounded-full border-[1.5px] border-ink bg-card hover:bg-paper-2 transition text-sm">
               <span className="font-mono text-xs text-mute">LV {lv.level}</span>
               <span className="font-semibold">{lv.rank}</span>
               <span className={`font-mono text-xs px-2 py-0.5 rounded-full ${s ? 'bg-signal text-paper' : 'bg-paper-2 text-mute'}`}>{s} day{s === 1 ? '' : 's'}</span>
@@ -58,12 +58,14 @@ export default function Layout() {
           </div>
         </div>
         {open && (
-          <nav className="md:hidden gutter pb-4 flex flex-col gap-1 text-lg">
-            {[...NAV, { to: '/me', label: 'My progress' }].map(n => <NavLink key={n.to} to={n.to} className="py-2 border-b border-line">{n.label}</NavLink>)}
+          <nav className="md:hidden gutter pb-5 pt-1 flex flex-col text-xl font-semibold">
+            {[...NAV, { to: '/me', label: `My progress · LV ${lv.level} · ${s} day${s === 1 ? '' : 's'}` }].map(n => (
+              <NavLink key={n.to} to={n.to} className={({ isActive }) => `py-3 border-b border-dashed border-ink/25 flex items-center justify-between ${isActive ? 'text-signal' : ''}`}>{n.label}<span aria-hidden="true" className="font-mono text-sm text-mute">→</span></NavLink>
+            ))}
           </nav>
         )}
       </header>
-      <main className="flex-1"><Outlet /></main>
+      <main className="flex-1"><Suspense fallback={<Loader inline label="loading…" />}><Outlet /></Suspense></main>
       <Footer />
     </div>
   )
@@ -71,21 +73,30 @@ export default function Layout() {
 
 function Footer() {
   return (
-    <footer className="border-t border-line mt-24">
+    <footer className="print:hidden border-t-[1.5px] border-ink mt-24 bg-paper">
       <div className="gutter max-w-[1400px] mx-auto py-12 grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div className="space-y-3">
           <Wordmark size={26} />
-          <p className="font-serif text-ink-2 max-w-sm">A free course for anyone who wants to stop being scared of Git. Made in the open, one commit a day.</p>
+          <p className="font-serif text-ink-2 max-w-sm">The complete, hands-on course for Git and GitHub, from your first folder to building your own GitHub.</p>
         </div>
         <FooterCol title="Learn" links={[['/learn', 'The course'], ['/problems', 'Practice problems'], ['/playground', 'Playground'], ['/cheatsheet', 'Cheat sheet'], ['/rescue', 'I broke something']]} />
-        <FooterCol title="You" links={[['/me', 'Progress and backup'], ['/learn', 'Continue']]} />
+        <FooterCol title="You" links={[['/me', 'Progress and backup'], ['/certificate', 'Your certificate'], ['/learn/29-capstone', 'The capstone']]} />
         <div className="space-y-2 text-sm">
           <div className="eyebrow">Source</div>
           <a className="block text-ink-2 hover:text-signal" href="https://github.com/pankqx/BossGit" target="_blank" rel="noreferrer">github.com/pankqx/BossGit</a>
           <a className="block text-ink-2 hover:text-signal" href="https://github.com/pankqx/BossGit/blob/main/HOW-TO-ADD-A-LESSON.md" target="_blank" rel="noreferrer">Write a lesson</a>
         </div>
       </div>
-      <div className="gutter max-w-[1400px] mx-auto pb-10 flex flex-wrap gap-x-6 gap-y-2 justify-between text-xs font-mono text-mute">
+      <div className="gutter max-w-[1400px] mx-auto">
+        <div className="dashline py-6 flex flex-col sm:flex-row gap-3 sm:items-center justify-between">
+          <p className="text-[15px]">
+            <span className="text-mute">Designed, developed and owned by </span>
+            <span className="font-bold">K S Pankaj</span>
+          </p>
+          <p className="font-mono text-xs text-mute">© {new Date().getFullYear()} K S Pankaj. All rights reserved.</p>
+        </div>
+      </div>
+      <div className="gutter max-w-[1400px] mx-auto pb-10 flex flex-wrap gap-x-6 gap-y-2 justify-between text-xs font-mono text-mute" style={{ paddingBottom: 'max(2.5rem, env(safe-area-inset-bottom, 0px))' }}>
         <span>Your progress stays in this browser. No account, no tracking.</span>
         <span>git commit -m "keep going"</span>
       </div>

@@ -6,12 +6,3 @@ boss: The Tangled Timeline
 ---
 
 Rebase has a reputation. It does not deserve it. Once you see that rebase only copies commits, the fear goes away.
-
-## Planned lessons
-
-- Rebase vs merge, side by side
-- git rebase main
-- Conflicts during a rebase
-- Interactive rebase: squash, fixup, reword, drop
-- The golden rule: never rebase shared history
-- Merge or rebase? A flowchart

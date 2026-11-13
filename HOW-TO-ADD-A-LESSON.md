@@ -34,6 +34,7 @@ npm run dev
 
    ```bash
    npm run check
+   npm run verify
    git add content/04-history
    git commit -m "content: add lesson on git log"
    git push -u origin lesson/04-git-log
@@ -148,6 +149,21 @@ Each `check:` line is one thing that must be true. File paths are relative to th
 | `cwd FOLDER` | the learner is inside FOLDER |
 | `run COMMAND => TEXT` | running COMMAND prints TEXT |
 | `branchlacks BRANCH FILE` | FILE is **not** in the newest commit of BRANCH (BRANCH can also be `HEAD~1`) |
+| `neverin FILE` | FILE is not in any commit of the current history |
+
+## The answer: `solve:` lines
+
+Give every mission its answer in `solve:` lines, one command per line. Learners never see them. `npm run verify` plays every mission for real: it runs the setup, checks that the mission is **not** already solved, runs your `solve:` lines, and checks that every `check:` now passes. `$LAST` in a `solve:` line is replaced by the last line the previous command printed, which is handy for plumbing ids.
+
+```mission
+title: Name it
+goal: Make a branch called feature.
+setup: mkdir app && cd app && git init -q && echo hi > a.txt && git add . && git commit -q -m "Start"
+check: branch feature
+solve: git branch feature
+```
+
+Run `npm run verify` before you open a pull request. CI runs it too.
 | `neverin FILE` | no commit in the current history contains FILE |
 
 ## Lab helpers for setup

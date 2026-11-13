@@ -35,9 +35,9 @@ export default function Rescue() {
         ) : (
           <div>
             <h2 className="text-3xl font-bold tracking-tight mb-6">{node.title}</h2>
-            <pre className="font-mono text-[15px] leading-relaxed bg-[#1c1916] text-[#e8e1d7] rounded-xl p-5 overflow-x-auto">{node.steps.map(s => (s.startsWith('#') ? s : '$ ' + s)).join('\n')}</pre>
+            <pre className="font-mono text-[15px] leading-relaxed bg-[#0e1a2e] text-[#e4ebf6] rounded-xl p-5 overflow-x-auto">{node.steps.map(s => (s.startsWith('#') ? s : '$ ' + s)).join('\n')}</pre>
             {node.note && <p className="mt-5 font-serif text-lg text-ink-2 border-l-[3px] border-signal pl-4">{node.note}</p>}
-            <button onClick={() => setPath(['start'])} className="mt-8 px-5 py-2.5 rounded-full border border-line hover:border-ink">Start over</button>
+            <button onClick={() => setPath(['start'])} className="mt-8 px-5 py-2.5 rounded-full border-[1.5px] border-ink hover:bg-paper-2">Start over</button>
           </div>
         )}
       </div>
