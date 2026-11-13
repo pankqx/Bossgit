@@ -7,9 +7,9 @@ const COMMANDS = ['git', 'ls', 'cd', 'pwd', 'cat', 'echo', 'mkdir', 'touch', 'rm
 const GIT_SUBS = ['init', 'status', 'add', 'commit', 'log', 'show', 'diff', 'branch', 'switch', 'checkout', 'restore', 'reset', 'merge', 'rebase', 'cherry-pick', 'revert', 'stash', 'tag', 'reflog', 'remote', 'push', 'pull', 'fetch', 'clone', 'config', 'blame', 'cat-file', 'rev-parse', 'rm', 'mv', 'shortlog', 'help']
 
 const theme = {
-  background: '#1c1916', foreground: '#e8e1d7', cursor: '#e8664a', cursorAccent: '#1c1916',
-  selectionBackground: '#e8664a55',
-  black: '#2a2622', red: '#e8664a', green: '#9cc28a', yellow: '#e0b25a', blue: '#86a7c9', magenta: '#c99ac0', cyan: '#7cc4bd', white: '#e8e1d7',
+  background: '#0e1a2e', foreground: '#e4ebf6', cursor: '#ff7440', cursorAccent: '#0e1a2e',
+  selectionBackground: '#ff744055',
+  black: '#1b2b45', red: '#ff7440', green: '#9cc28a', yellow: '#e0b25a', blue: '#86a7c9', magenta: '#c99ac0', cyan: '#7cc4bd', white: '#e4ebf6',
   brightBlack: '#6f665d', brightRed: '#f08a70', brightGreen: '#b4d6a3', brightYellow: '#ecc77c', brightBlue: '#a5c0dc', brightMagenta: '#dcb5d4', brightCyan: '#9dd8d1', brightWhite: '#ffffff',
 }
 

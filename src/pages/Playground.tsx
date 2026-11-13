@@ -33,7 +33,7 @@ export default function Playground() {
       {scene && <p className="mt-4 text-sm text-ink-2">{SCENES.find(s => s.name === scene)?.about}</p>}
       <div className="mt-6 grid xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-6">
         <div className="flex flex-col gap-4 min-w-0">
-          <div className="rounded-2xl border border-line bg-card min-h-[300px] p-2">{snap && <GitGraph snap={snap} />}</div>
+          <div className="rounded-2xl border-[1.5px] border-ink bg-card min-h-[300px] p-2">{snap && <GitGraph snap={snap} />}</div>
           {snap?.repo && <Areas snap={snap} />}
         </div>
         <Terminal lab={lab} height={520} welcome={'\x1b[2mWelcome to the BossGit playground. Your repository is saved in this browser.\x1b[0m'} />

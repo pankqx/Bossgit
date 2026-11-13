@@ -55,13 +55,13 @@ export default function ProblemPage() {
         </div>
         <h1 className="mt-3 font-display font-extrabold text-[clamp(2rem,4vw,3.2rem)] leading-[1] tracking-[-0.035em]">{pr.number}. {pr.title}</h1>
         <div className="mt-8"><Blocks blocks={pr.statement} lab={lab} /></div>
-        <section className="mt-8 rounded-2xl bg-paper-2 border border-line p-6">
+        <section className="mt-8 rounded-2xl bg-paper-2 border-[1.5px] border-ink p-6">
           <div className="eyebrow mb-3">Goal</div>
           <Md text={pr.mission.goal} className="prose-bg text-[1.12rem]" />
           <div className="flex flex-wrap gap-2 mt-5">
             <button onClick={submit} disabled={busy} className="px-5 py-2.5 rounded-full font-semibold bg-signal text-white hover:opacity-90 disabled:opacity-50">Submit</button>
-            <button onClick={reset} className="px-5 py-2.5 rounded-full border border-line hover:border-ink">Reset repository</button>
-            {pr.mission.hints.length > hints && <button onClick={() => setHints(h => h + 1)} className="px-5 py-2.5 rounded-full border border-line hover:border-ink">{hints ? 'Next hint' : 'Hint'}</button>}
+            <button onClick={reset} className="px-5 py-2.5 rounded-full border-[1.5px] border-ink hover:bg-paper-2">Reset repository</button>
+            {pr.mission.hints.length > hints && <button onClick={() => setHints(h => h + 1)} className="px-5 py-2.5 rounded-full border-[1.5px] border-ink hover:bg-paper-2">{hints ? 'Next hint' : 'Hint'}</button>}
             {!wide && <button onClick={() => setSheet(true)} className="px-5 py-2.5 rounded-full bg-ink text-paper">Open terminal</button>}
           </div>
           {hints > 0 && <ol className="mt-4 space-y-2">{pr.mission.hints.slice(0, hints).map((h, n) => <li key={n} className="grid grid-cols-[4.5rem_1fr] items-baseline"><span className="eyebrow">Hint {n + 1}</span><Md text={h} className="prose-bg text-[1rem]" /></li>)}</ol>}

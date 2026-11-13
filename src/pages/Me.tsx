@@ -75,7 +75,7 @@ export default function Me() {
           <p className="font-serif text-lg text-ink-2 mb-5">Progress is saved in this browser only. Download a backup file to keep it safe, or to move it to another computer.</p>
           <div className="flex flex-wrap gap-2">
             <button onClick={download} className="px-5 py-2.5 rounded-full bg-ink text-paper font-semibold">Export backup</button>
-            <button onClick={() => file.current?.click()} className="px-5 py-2.5 rounded-full border border-line hover:border-ink">Import backup</button>
+            <button onClick={() => file.current?.click()} className="px-5 py-2.5 rounded-full border-[1.5px] border-ink hover:bg-paper-2">Import backup</button>
             <input id="import-file" ref={file} type="file" accept="application/json,.json" className="hidden" onChange={e => load(e.target.files?.[0])} />
           </div>
           {msg && <p className="mt-3 text-sm text-moss" role="status">{msg}</p>}
