@@ -3,7 +3,7 @@
 // (rebase, cherry-pick, revert, stash, reflog, remotes on the same disk)
 // are built here on top of its building blocks.
 import git from 'isomorphic-git'
-import { merge3, unifiedHunks } from './diff'
+import { merge3, unifiedHunks, diffLines, splitLines } from './diff'
 
 /* ------------------------------------------------------------------ */
 /* basics                                                              */
@@ -581,6 +581,14 @@ export class Shell {
       case 'cat-file': return this.gCatFile(dir, rest)
       case 'rev-parse': return (await this.resolve(dir, rest.find(a => !a.startsWith('-')) ?? 'HEAD')) + '\n'
       case 'shortlog': return this.gShortlog(dir)
+      case 'ls-files': return (await git.listFiles({ fs: this.fs, dir })).join('\n') + '\n'
+      case 'hash-object': {
+        const f = rest.find(a => !a.startsWith('-')) ?? fail('usage: git hash-object [-w] <file>')
+        const object = new TextEncoder().encode(await this.readText(this.abs(f)))
+        return (rest.includes('-w') ? await git.writeBlob({ fs: this.fs, dir, blob: object }) : (await git.hashBlob({ object })).oid) + '\n'
+      }
+      case 'clean': return this.gClean(dir, rest)
+      case 'bisect': return this.gBisect(dir, rest)
       default: return fail(`git: '${sub}' is not a git command BossGit knows yet. See 'git help'.`)
     }
   }
@@ -848,7 +856,8 @@ export class Shell {
   }
 
   private async gLog(dir: string, args: string[]) {
-    const p = parseArgs(args, ['-n', '--author', '--grep'])
+    const p = parseArgs(args, ['-n', '--author', '--grep', '-S', '-G'])
+    p.pos.splice(0, p.pos.length, ...p.pos.filter(a => !/^-\d+$/.test(a)))
     const head = await this.headOid(dir)
     if (!head) fail(`fatal: your current branch '${await this.branch(dir)}' does not have any commits yet`)
     let limit = Number(p.get('-n') ?? (args.find(a => /^-\d+$/.test(a))?.slice(1)) ?? 1000)
@@ -882,8 +891,29 @@ export class Shell {
       }
       list = keep
     }
-    if (p.has('-S')) { /* pickaxe handled below */ }
+    const pick = p.get('-S'), re = p.get('-G')
+    if (pick || re) {
+      const count = (files: Map<string, string>) => { let n = 0; for (const t of files.values()) n += pick ? t.split(pick).length - 1 : t.split('\n').filter(l => new RegExp(re!).test(l)).length; return n }
+      const keep = []
+      for (const x of list) {
+        const now = await this.treeFiles(dir, x.oid), before = await this.treeFiles(dir, x.commit.parent[0] ?? null)
+        if (pick ? count(now) !== count(before) : [...new Set([...now.keys(), ...before.keys()])].some(f => now.get(f) !== before.get(f) && diffLines(splitLines(before.get(f) ?? ''), splitLines(now.get(f) ?? '')).some(d => d.op !== ' ' && new RegExp(re!).test(d.text)))) keep.push(x)
+      }
+      list = keep
+    }
     limit = Math.max(1, limit)
+    if (p.has('-p', '--patch', '--stat')) {
+      let out = ''
+      for (const x of list.slice(0, limit)) {
+        out += await this.formatLog(dir, [x], p)
+        if (p.has('--stat')) {
+          const now = await this.treeFiles(dir, x.oid), before = await this.treeFiles(dir, x.commit.parent[0] ?? null)
+          const changed = [...new Set([...now.keys(), ...before.keys()])].filter(f => now.get(f) !== before.get(f)).sort()
+          out += changed.map(f => ` ${f} | ${now.has(f) ? (before.has(f) ? 'changed' : 'new file') : 'deleted'}`).join('\n') + `\n ${changed.length} file${changed.length === 1 ? '' : 's'} changed\n\n`
+        } else out += (await this.treeDiff(dir, x.commit.parent[0] ?? null, x.oid)) + '\n'
+      }
+      return out
+    }
     return this.formatLog(dir, list.slice(0, limit), p)
   }
 
@@ -1739,6 +1769,55 @@ export class Shell {
     return out + 'done.\n'
   }
 
+  /* -------------------------------- clean and bisect --------------------- */
+
+  private async gClean(dir: string, args: string[]) {
+    const p = parseArgs(args)
+    const dry = p.has('-n', '--dry-run')
+    if (!dry && !p.has('-f', '--force')) fail('fatal: clean.requireForce is true and -f not given: refusing to clean\nTry git clean -n first to see what would be removed.')
+    const untracked = (await this.matrix(dir)).filter(r => r[1] === 0 && r[3] === 0).map(r => r[0] as string).sort()
+    const out: string[] = []
+    for (const f of untracked) {
+      if (f.includes('/') && !p.has('-d')) continue
+      out.push(`${dry ? 'Would remove' : 'Removing'} ${f}`)
+      if (!dry) await this.fs.promises.unlink(dir + '/' + f)
+    }
+    return out.join('\n') + (out.length ? '\n' : '')
+  }
+
+  private async gBisect(dir: string, args: string[]) {
+    const [sub, rev] = args
+    const s = await this.state(dir) as BossState & { bisect?: { orig: string; good: string[]; bad?: string } }
+    const save = () => this.saveState(dir, s)
+    if (sub === 'start') {
+      s.bisect = { orig: (await this.branch(dir)) ?? (await this.headOid(dir))!, good: [] }
+      await save()
+      return C.dim('status: waiting for both good and bad commits') + '\n'
+    }
+    const b = s.bisect ?? fail('You need to start by "git bisect start"')
+    if (sub === 'reset') {
+      s.bisect = undefined; await save()
+      await this.gSwitch(dir, (await git.listBranches({ fs: this.fs, dir })).includes(b!.orig) ? [b!.orig] : ['--detach', b!.orig])
+      return `Previous HEAD position was restored. Switched to '${b!.orig}'\n`
+    }
+    if (sub === 'log') return [b!.bad && `git bisect bad ${b!.bad}`, ...b!.good.map(g => `git bisect good ${g}`)].filter(Boolean).join('\n') + '\n'
+    if (sub !== 'good' && sub !== 'bad' && sub !== 'new' && sub !== 'old') fail('usage: git bisect [start | good | bad | reset | log]')
+    const oid = await this.resolve(dir, rev ?? 'HEAD')
+    if (sub === 'bad' || sub === 'new') b!.bad = oid; else b!.good.push(oid)
+    await save()
+    if (!b!.bad || !b!.good.length) return C.dim(`status: waiting for ${b!.bad ? 'a good' : 'a bad'} commit`) + '\n'
+    const goodSet = new Set((await this.commitsFrom(dir, b!.good)).map(x => x.oid))
+    const left = (await this.commitsFrom(dir, [b!.bad])).filter(x => !goodSet.has(x.oid))
+    if (left.length <= 1) {
+      const c = left[0] ?? { oid: b!.bad, commit: await this.readCommit(dir, b!.bad) }
+      return C.bold(`${c.oid} is the first bad commit`) + '\n' + (await this.formatLog(dir, [c], parseArgs([]))) + C.dim('Run git bisect reset to go back.') + '\n'
+    }
+    const mid = left[Math.floor(left.length / 2)]
+    await this.gSwitch(dir, ['--detach', mid.oid])
+    const steps = Math.floor(Math.log2(left.length - 1))
+    return `Bisecting: ${left.length - 2} revisions left to test after this (roughly ${steps} step${steps === 1 ? '' : 's'})\n[${mid.oid}] ${mid.commit.message.split('\n')[0]}\n`
+  }
+
   /* -------------------------------- lesson helpers ----------------------- */
   // `bossgit ...` commands are used by lesson and mission setups to stage
   // a scene, for example a teammate pushing a commit to GitHub.
@@ -1869,11 +1948,14 @@ ${C.bold('work on the current change')}
    restore    Restore files in the working folder or staging area
 ${C.bold('examine the history and state')}
    status     Show the working tree status
-   log        Show commit logs (--oneline, --graph, --all, -n)
+   log        Show commit logs (--oneline, --graph, --all, -n, -p, --stat, -S)
    show       Show a commit, or a file at a commit (git show HEAD:file)
    diff       Show changes (--staged for staged changes)
    blame      Show who last changed each line
    reflog     Show every place HEAD has been
+   bisect     Find the commit that broke something (start, good, bad, reset)
+   ls-files   List the files Git is tracking
+   clean      Delete untracked files (-n to preview, -f to do it)
 ${C.bold('grow, mark and tweak your history')}
    commit     Record changes (-m, -a, --amend)
    branch     List, create, rename (-m) or delete (-d) branches
@@ -1893,6 +1975,7 @@ ${C.bold('collaborate')}
    push       Upload commits (-u, --force-with-lease, --tags, --delete)
 ${C.bold('look inside')}
    cat-file   Show a raw Git object (-t type, -p print)
+   hash-object  Show the id Git would give a file (-w to store it)
    rev-parse  Turn a name like HEAD~2 into a commit id
    config     Get and set options (--global, --list)
 `
