@@ -35,8 +35,14 @@ for (const it of items) {
   await sh.boot(); await sh.run('bossgit identity'); await sh.script(it.setup); sh.history = []
   const before = await runChecks(sh, it.checks)
   if (before.every(r => r.ok)) { bad++; console.log('  ✗ already solved before the answer: ' + it.name); continue }
-  let log = ''
-  for (const l of it.solve) log += `$ ${l}\n` + (await sh.run(l)) 
+  // $LAST in an answer line is replaced by the last line the previous command printed (for plumbing ids)
+  let log = '', last = ''
+  for (const raw of it.solve) {
+    const l = raw.replaceAll('$LAST', last)
+    const out = (await sh.run(l)).replace(/\x1b\[[0-9;]*m/g, '')
+    log += `$ ${l}\n` + out
+    last = out.trim().split('\n').pop()?.trim() ?? ''
+  }
   const after = await runChecks(sh, it.checks)
   const failed = after.filter(r => !r.ok)
   if (failed.length) { bad++; console.log('  ✗ ' + it.name + '\n      failed: ' + failed.map(r => r.check).join(' | ') + '\n' + log.replace(/\x1b\[[0-9;]*m/g, '').split('\n').slice(-12).map(l => '      ' + l).join('\n')) }

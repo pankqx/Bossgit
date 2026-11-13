@@ -588,6 +588,47 @@ export class Shell {
         return (rest.includes('-w') ? await git.writeBlob({ fs: this.fs, dir, blob: object }) : (await git.hashBlob({ object })).oid) + '\n'
       }
       case 'clean': return this.gClean(dir, rest)
+      case 'update-index': {
+        const files = rest.filter(a => !a.startsWith('-'))
+        for (const f of files) await git.add({ fs: this.fs, dir, filepath: this.rel(dir, f) })
+        return ''
+      }
+      case 'write-tree': {
+        // build the tree for the current index by making a throwaway commit that moves nothing
+        const a = { name: 'x', email: 'x', timestamp: 0, timezoneOffset: 0 }
+        const oid = await git.commit({ fs: this.fs, dir, message: 'tree', author: a, committer: a, noUpdateBranch: true, parent: [] })
+        return (await git.readCommit({ fs: this.fs, dir, oid })).commit.tree + '\n'
+      }
+      case 'commit-tree': {
+        const p = parseArgs(rest, ['-m', '-p'])
+        const tree = p.pos[0] ?? fail('usage: git commit-tree <tree> [-p <parent>] -m <message>')
+        const parents: string[] = []
+        for (let i = 0; i < rest.length; i++) if (rest[i] === '-p') parents.push(await this.resolve(dir, rest[i + 1]))
+        const who = await this.author(dir)
+        return (await git.writeCommit({ fs: this.fs, dir, commit: { tree: await this.resolveTree(dir, tree), parent: parents, author: who, committer: who, message: (p.get('-m') ?? fail('commit-tree: add a message with -m')) + '\n' } })) + '\n'
+      }
+      case 'update-ref': {
+        const [ref, rev] = rest.filter(a => !a.startsWith('-'))
+        if (!ref || !rev) fail('usage: git update-ref <ref> <commit>')
+        await git.writeRef({ fs: this.fs, dir, ref, value: await this.resolve(dir, rev), force: true })
+        return ''
+      }
+      case 'ls-tree': {
+        const rev = rest.filter(a => !a.startsWith('-'))[0] ?? 'HEAD'
+        const { tree } = await git.readTree({ fs: this.fs, dir, oid: await this.resolveTree(dir, rev) })
+        return tree.map(e => `${e.mode} ${e.type} ${e.oid}\t${e.path}`).join('\n') + '\n'
+      }
+      case 'show-ref': {
+        const out: string[] = []
+        for (const b of await git.listBranches({ fs: this.fs, dir })) out.push(`${await this.resolve(dir, b)} refs/heads/${b}`)
+        for (const t of await git.listTags({ fs: this.fs, dir })) out.push(`${await git.resolveRef({ fs: this.fs, dir, ref: 'refs/tags/' + t })} refs/tags/${t}`)
+        return out.join('\n') + (out.length ? '\n' : '')
+      }
+      case 'symbolic-ref': {
+        const b = await this.branch(dir)
+        if (!b || (await this.isDetached(dir))) fail('fatal: ref HEAD is not a symbolic ref')
+        return `refs/heads/${b}\n`
+      }
       case 'bisect': return this.gBisect(dir, rest)
       default: return fail(`git: '${sub}' is not a git command BossGit knows yet. See 'git help'.`)
     }
@@ -1769,6 +1810,17 @@ export class Shell {
     return out + 'done.\n'
   }
 
+  /** a tree id from a tree id, or from anything that names a commit */
+  private async resolveTree(dir: string, rev: string) {
+    if (/^[0-9a-f]{40}$/.test(rev)) {
+      const o = await git.readObject({ fs: this.fs, dir, oid: rev }).catch(() => undefined)
+      if (o?.type === 'tree') return rev
+    }
+    const oid = await this.resolve(dir, rev)
+    const o = await git.readObject({ fs: this.fs, dir, oid })
+    return o.type === 'tree' ? oid : (await git.readCommit({ fs: this.fs, dir, oid })).commit.tree
+  }
+
   /* -------------------------------- clean and bisect --------------------- */
 
   private async gClean(dir: string, args: string[]) {
@@ -1792,7 +1844,12 @@ export class Shell {
     if (sub === 'start') {
       s.bisect = { orig: (await this.branch(dir)) ?? (await this.headOid(dir))!, good: [] }
       await save()
-      return C.dim('status: waiting for both good and bad commits') + '\n'
+      const revs = args.slice(1).filter(a => !a.startsWith('-'))
+      if (!revs.length) return C.dim('status: waiting for both good and bad commits') + '\n'
+      await this.gBisect(dir, ['bad', revs[0]])
+      let out = ''
+      for (const g of revs.slice(1)) out = await this.gBisect(dir, ['good', g])
+      return out || C.dim('status: waiting for a good commit') + '\n'
     }
     const b = s.bisect ?? fail('You need to start by "git bisect start"')
     if (sub === 'reset') {
@@ -1976,6 +2033,8 @@ ${C.bold('collaborate')}
 ${C.bold('look inside')}
    cat-file   Show a raw Git object (-t type, -p print)
    hash-object  Show the id Git would give a file (-w to store it)
+   ls-tree    List what is inside a tree or commit
+   write-tree, commit-tree, update-ref, update-index   Plumbing: build commits by hand
    rev-parse  Turn a name like HEAD~2 into a commit id
    config     Get and set options (--global, --list)
 `
