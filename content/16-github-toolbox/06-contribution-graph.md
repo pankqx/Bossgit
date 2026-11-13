@@ -10,7 +10,7 @@ The green squares on your profile count **contributions**. Knowing the rules sav
 - **Commits**, if all of these are true:
   - the commit email is linked to your account,
   - it is on the repository's **default branch** (usually `main`) or the `gh-pages` branch,
-  - it is in a repo you own, or you are a collaborator, or you forked it and starred it... the simple rule is: in a standalone repo, not just a fork.
+  - it is in a standalone repository, not in a fork.
 - **Opening** issues and pull requests.
 - **Reviewing** pull requests.
 - **Creating** a repository, and opening discussions and answering them.
